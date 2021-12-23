@@ -1,0 +1,14 @@
+name: Build Test Deploy
+
+on:
+  merge:
+    main
+
+jobs:
+  set-up:
+    name: Set up
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build
+        id: build
