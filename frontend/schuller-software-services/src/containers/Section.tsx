@@ -6,8 +6,6 @@ import TabPanel from "../components/TabPanel";
 
 interface SectionProps {
     children?: React.ReactNode;
-    index?: number;
-    value?: number;
 }
 
 function Section(props:SectionProps) {
