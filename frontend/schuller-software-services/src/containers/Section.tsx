@@ -53,13 +53,16 @@ function Section(props:SectionProps) {
             </Tabs>
 
             <TabPanel value={value} index={0} dir={theme.direction}>
-                Item One
+                Hi, I'm Ricardo. Here is your classic <a href="https://www.linkedin.com/in/ricardo-schuller-944750110/">LinkedIn profile.</a>
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-                Item Two
+                Polyglot that likes to solve problems and make it scalable.
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
-                Item Three
+                RBS Open Banking <br/>
+                NHS Profile Updater <br/>
+                NATS <br/>
+                Matchesfashion <br/>
             </TabPanel>
         </div>
     );

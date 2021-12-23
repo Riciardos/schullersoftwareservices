@@ -9,15 +9,17 @@ function App() {
     <div className="App">
         <header className="App-header">
             <Section/>
-        <a
-          className="App-link"
-          href="https://www.github.com/riciardos"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-            Github: Riciardos
-        </a>
-      </header>
+        </header>
+        <footer className="App-footer">
+            <a
+                className="App-link"
+                href="https://www.github.com/riciardos"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Github: Riciardos
+            </a>
+        </footer>
     </div>
   );
 }
