@@ -1,39 +1,13 @@
 import React, {useState} from 'react';
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
-import {Box, Typography, useTheme} from "@mui/material";
+import {useTheme} from "@mui/material";
+import TabPanel from "../components/TabPanel";
 
 interface SectionProps {
     children?: React.ReactNode;
     index?: number;
     value?: number;
-}
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    dir?: string;
-    index: number;
-    value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`full-width-tabpanel-${index}`}
-            aria-labelledby={`full-width-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
 }
 
 function Section(props:SectionProps) {
