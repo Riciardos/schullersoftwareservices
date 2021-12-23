@@ -2,7 +2,7 @@ name: Build Test Deploy Frontend
 
 defaults:
   run:
-    working-directory: schuller-software-services
+    working-directory: frontend/schuller-software-services
 
 on:
   workflow_dispatch:
