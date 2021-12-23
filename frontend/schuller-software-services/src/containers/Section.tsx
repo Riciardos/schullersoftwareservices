@@ -59,10 +59,10 @@ function Section(props:SectionProps) {
                 Polyglot that likes to solve problems and make it scalable.
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
-                RBS Open Banking <br/>
-                NHS Profile Updater <br/>
-                NATS <br/>
                 Matchesfashion <br/>
+                NATS <br/>
+                NHS Profile Updater <br/>
+                RBS Open Banking <br/>
             </TabPanel>
         </div>
     );
