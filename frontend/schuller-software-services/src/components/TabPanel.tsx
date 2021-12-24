@@ -11,7 +11,6 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
-
     return (
         <div className="TabPanel"
             role="tabpanel"

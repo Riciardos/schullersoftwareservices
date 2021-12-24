@@ -1,23 +1,29 @@
 import React from 'react';
 import './App.css';
 import Section from "./containers/Section";
+import {Button, ThemeProvider, useMediaQuery} from "@mui/material";
+import pickTheme from "./theme";
 
 function App() {
 
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-  return (
+    return (
     <div className="App">
+       <ThemeProvider theme={pickTheme(prefersDarkMode)}>
+
         <header className="App-header">
             <Section/>
         </header>
         <footer className="App-footer">
-            <a className="App-link"
-                href="https://www.github.com/riciardos"
-            >Github</a> <a className="App-link"
-                           href="https://www.linkedin.com/in/ricardo-schuller-944750110">LinkedIn</a>
+            <div>
+                <Button variant="outlined" href="https://www.github.com/riciardos">Github</Button>
+                <Button variant="contained" href="https://www.linkedin.com/in/ricardo-schuller-944750110">LinkedIn</Button>
+            </div>
             <address>Address: Zoetestraat 25C, Haarlem, The Netherlands</address>
             Phone: +31621705940, taxcode: NL004009717B15
         </footer>
+       </ThemeProvider>
     </div>
   );
 }
