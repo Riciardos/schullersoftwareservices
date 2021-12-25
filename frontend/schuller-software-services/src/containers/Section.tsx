@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
-import {useTheme} from "@mui/material";
+import {Divider, List, ListItem, ListItemText, useTheme} from "@mui/material";
 import TabPanel from "../components/TabPanel";
 
 interface SectionProps {
@@ -32,10 +32,23 @@ function Section(props:SectionProps) {
                 Polyglot that likes to solve problems and make it scalable.
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
-                Matchesfashion <br/>
-                NATS <br/>
-                NHS Profile Updater <br/>
-                RBS Open Banking <br/>
+                <List>
+                    <ListItem>
+                        <ListItemText primary="Matchesfashion" secondary="Tech Lead - Java" />
+                    </ListItem>
+                    <Divider/>
+                    <ListItem>
+                        <ListItemText primary="NATS" secondary="Project Tech Lead - Admin"/>
+                    </ListItem>
+                    <Divider/>
+                    <ListItem>
+                        <ListItemText primary="NHS Profile Updater" secondary="Senior Software Developer"/>
+                    </ListItem>
+                    <Divider/>
+                    <ListItem>
+                        <ListItemText primary="RBS Open Banking" secondary="Software Developer - Java"/>
+                    </ListItem>
+                </List>
             </TabPanel>
         </div>
     );
