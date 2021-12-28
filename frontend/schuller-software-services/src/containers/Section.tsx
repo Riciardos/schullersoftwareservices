@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import './Section.css';
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import {Divider, List, ListItem, ListItemText, useTheme} from "@mui/material";
@@ -16,9 +17,8 @@ function Section(props:SectionProps) {
         setValue(newValue);
     };
     return (
-        <div className="Section">
-            <h1>Schuller Software Services</h1>
-            <Tabs value={value} onChange={handleChange} textColor="primary" indicatorColor="primary" >
+        <section className="Section">
+            <Tabs value={value} onChange={handleChange} textColor="primary" indicatorColor="primary" className="Section-tab-header" >
                 <Tab value={0} label="Intro" />
                 <Tab value={1} label="Motivation"/>
                 <Tab value={2} label="Experience"/>
@@ -31,7 +31,7 @@ function Section(props:SectionProps) {
                 Clean code, agile practices, yada yada yada.
                 Polyglot that likes to solve problems and make it scalable.
             </TabPanel>
-            <TabPanel value={value} index={2} dir={theme.direction}>
+            <TabPanel value={value} index={2} dir={theme.direction} className="Section-tab-panel">
                 <List>
                     <ListItem>
                         <ListItemText primary="Matchesfashion" secondary="Tech Lead - Java" />
@@ -50,7 +50,7 @@ function Section(props:SectionProps) {
                     </ListItem>
                 </List>
             </TabPanel>
-        </div>
+        </section>
     );
 }
 

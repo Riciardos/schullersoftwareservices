@@ -11,11 +11,13 @@ function App() {
     return (
     <div className="App">
        <ThemeProvider theme={pickTheme(prefersDarkMode)}>
+           <header className="App-header">
+                <h1>Schuller Software Services</h1>
+           </header>
 
-        <header className="App-header">
-            <Section/>
-        </header>
-        <footer className="App-footer">
+           <Section/>
+
+           <footer className="App-footer">
             <div>
                 <Button variant="outlined" href="https://www.github.com/riciardos">Github</Button>
                 <Button variant="contained" href="https://www.linkedin.com/in/ricardo-schuller-944750110">LinkedIn</Button>

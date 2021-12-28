@@ -2,24 +2,19 @@
   background-color: #167096;
   text-align: center;
   color: white;
-}
-
-
-.App-header {
-  min-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center;}
+
+
+.App-header {
+  min-height: 20vh;
   font-size: calc(10px + 2vmin);
 }
 
 .App-footer {
-  min-height: 25vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  min-height: 20vh;
   font-size: calc(10px + 0.5vmin);
 }
 
