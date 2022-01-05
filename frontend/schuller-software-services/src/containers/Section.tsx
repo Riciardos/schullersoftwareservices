@@ -28,7 +28,7 @@ function Section(props:SectionProps) {
                 Hi, I'm Ricardo. Here is your classic <a href="https://www.linkedin.com/in/ricardo-schuller-944750110/">LinkedIn</a> profile.
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-                Clean code, agile practices, yada yada yada.
+                Experienced Software Engineer with a demonstrated history of working in the information technology and services industry. Strong engineering professional skilled in Java, Spring Framework, Javascript, AWS, Docker, Terraform, and Agile Methodologies.
                 Polyglot that likes to solve problems and make it scalable.
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction} className="Section-tab-panel">
