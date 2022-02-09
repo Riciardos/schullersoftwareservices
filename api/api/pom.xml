@@ -15,8 +15,8 @@
 
   <properties>
     <packaging>jar</packaging>
-    <jdk.version>17</jdk.version>
-    <release.version>17</release.version>
+    <jdk.version>11</jdk.version>
+    <release.version>11</release.version>
     <micronaut.version>3.3.0</micronaut.version>
     <exec.mainClass>com.schullersoftwareservices.Application</exec.mainClass>
     <micronaut.runtime>netty</micronaut.runtime>
@@ -75,6 +75,25 @@
       <artifactId>micronaut-runtime</artifactId>
       <scope>compile</scope>
     </dependency>
+	  <dependency>
+		  <groupId>io.micronaut.aws</groupId>
+		  <artifactId>micronaut-function-aws-api-proxy</artifactId>
+		  <version>3.1.1</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>software.amazon.awssdk</groupId>
+		  <artifactId>s3</artifactId>
+	  </dependency>
+	  <dependency>
+		  <groupId>software.amazon.awssdk</groupId>
+		  <artifactId>dynamodb</artifactId>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.projectlombok</groupId>
+		  <artifactId>lombok</artifactId>
+		  <version>1.18.22</version>
+		  <scope>provided</scope>
+	  </dependency>
     <dependency>
       <groupId>jakarta.annotation</groupId>
       <artifactId>jakarta.annotation-api</artifactId>
@@ -87,21 +106,39 @@
     </dependency>
   </dependencies>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>software.amazon.awssdk</groupId>
+				<artifactId>bom</artifactId>
+				<version>2.17.126</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
   <build>
     <plugins>
       <plugin>
         <groupId>io.micronaut.build</groupId>
         <artifactId>micronaut-maven-plugin</artifactId>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+		  <version>3.8.1</version>
         <configuration>
           <!-- Uncomment to enable incremental compilation -->
           <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
 
           <annotationProcessorPaths combine.children="append">
+			  <path>
+				  <groupId>org.projectlombok</groupId>
+				  <artifactId>lombok</artifactId>
+				  <version>1.18.22</version>
+			  </path>
             <path>
               <groupId>io.micronaut</groupId>
               <artifactId>micronaut-http-validation</artifactId>
