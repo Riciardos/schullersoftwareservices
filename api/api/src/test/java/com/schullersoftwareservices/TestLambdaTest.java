@@ -50,8 +50,7 @@ class TestLambdaTest {
 				.build();
 
 		AwsProxyResponse response = handler.handleRequest(request, lambdaContext);
-		System.out.println(response.getBody());
-
+		System.out.println(objectMapper.writeValueAsString(response));
 	}
 
 
