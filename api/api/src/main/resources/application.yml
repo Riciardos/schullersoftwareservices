@@ -1,6 +1,18 @@
 micronaut:
   application:
     name: api
+  security:
+    authentication: idtoken
+    oauth2:
+      clients:
+        google:
+          client-id: '40668943377-4vb0kr2dds16iu6rs59jpak6hk2s2ga5.apps.googleusercontent.com'
+#          client-secret: 'ljSqgwewZUFOlwtJi1Ba3Sm3'
+          openid:
+            issuer: 'https://accounts.google.com'
+    endpoints:
+      logout:
+        get-allowed: true
 netty:
   default:
     allocator:
