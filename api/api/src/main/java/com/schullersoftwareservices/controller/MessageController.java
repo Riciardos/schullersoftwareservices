@@ -28,7 +28,7 @@ public class MessageController {
   @Inject private DynamoDbClient dynamoDbClient;
 
   @Post("/post")
-  @Secured(SecurityRule.IS_ANONYMOUS)
+  @Secured(SecurityRule.IS_AUTHENTICATED)
   public HttpResponse<Message> postMessage(MessageBody messageBody, Authentication authentication) {
 
     Message message =
@@ -45,7 +45,7 @@ public class MessageController {
   }
 
   @Get("/{date}")
-  @Secured(SecurityRule.IS_ANONYMOUS)
+  @Secured(SecurityRule.IS_AUTHENTICATED)
   public HttpResponse<List<Message>> getDayMessages(String date) {
     QueryResponse response =
         dynamoDbClient.query(
@@ -61,7 +61,7 @@ public class MessageController {
   }
 
   @Get("/all")
-  @Secured(SecurityRule.IS_ANONYMOUS)
+  @Secured(SecurityRule.IS_AUTHENTICATED)
   public HttpResponse<List<Message>> getAllMessages() {
     ScanRequest scanRequest = ScanRequest.builder().tableName(TABLE_NAME).build();
     ScanResponse response = dynamoDbClient.scan(scanRequest);

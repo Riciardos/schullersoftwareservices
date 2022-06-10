@@ -4,17 +4,29 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import {Divider, List, ListItem, ListItemText, useTheme} from "@mui/material";
 import TabPanel from "../components/TabPanel";
+import Message from "../components/Message";
 
 interface SectionProps {
+    googleAuth?: any
     children?: React.ReactNode;
 }
 
-function Section(props:SectionProps) {
+function Section(props:any) {
     const theme = useTheme();
     const [value, setValue] = useState(0);
+    const [messages, setMessages] = useState([]);
 
     const handleChange = (event:React.SyntheticEvent, newValue:any) => {
         setValue(newValue);
+        fetch("https://api.schullersoftwareservices.com/messages/all", {
+            headers: {
+                'Authorization': 'Bearer ' + props.googleAuth.credential
+            }
+        })
+            .then(res => res.json())
+            .then( result => {
+                setMessages(result)
+            })
     };
     return (
         <section className="Section">
@@ -22,6 +34,7 @@ function Section(props:SectionProps) {
                 <Tab value={0} label="Intro" />
                 <Tab value={1} label="Motivation"/>
                 <Tab value={2} label="Experience"/>
+                {props.googleAuth && <Tab value={3} label="Messages"/>}
             </Tabs>
 
             <TabPanel value={value} index={0} dir={theme.direction}>
@@ -49,6 +62,12 @@ function Section(props:SectionProps) {
                         <ListItemText primary="RBS Open Banking" secondary="Software Developer - Java"/>
                     </ListItem>
                 </List>
+            </TabPanel>
+            <TabPanel value={value} index={3} dir={theme.direction}>
+                {messages.map((message) => {
+                    console.log(message);
+                    return (<Message message={message}/>)
+                })}
             </TabPanel>
         </section>
     );

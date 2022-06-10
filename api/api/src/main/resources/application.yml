@@ -1,18 +1,24 @@
 micronaut:
   application:
     name: api
+  server:
+    cors:
+      enabled: true
   security:
-    authentication: idtoken
-    oauth2:
-      clients:
-        google:
-          client-id: '40668943377-4vb0kr2dds16iu6rs59jpak6hk2s2ga5.apps.googleusercontent.com'
-#          client-secret: 'ljSqgwewZUFOlwtJi1Ba3Sm3'
-          openid:
-            issuer: 'https://accounts.google.com'
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          jwks:
+            google:
+              url: https://www.googleapis.com/oauth2/v3/certs
     endpoints:
       logout:
         get-allowed: true
+    redirect:
+      enabled: false
+      unauthorized:
+        enabled: false
 netty:
   default:
     allocator:

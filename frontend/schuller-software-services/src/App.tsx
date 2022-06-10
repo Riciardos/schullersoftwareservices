@@ -1,13 +1,20 @@
-import React from 'react';
+import React , {useState, useEffect} from 'react';
 import './App.css';
 import Section from "./containers/Section";
 import {Button, ThemeProvider, useMediaQuery} from "@mui/material";
 import pickTheme from "./theme";
 
 function App() {
-
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
+    const [googleAuth, setGoogleAuth] = useState();
+
+    const handleCredentialResponse = (response:any) => {
+        console.log(response);
+        setGoogleAuth(response);
+    }
+    // @ts-ignore
+    window.handleCredentialResponse = handleCredentialResponse;
     return (
     <div className="App">
        <ThemeProvider theme={pickTheme(prefersDarkMode)}>
@@ -15,7 +22,7 @@ function App() {
                 <h1>Schuller Software Services</h1>
            </header>
 
-           <Section/>
+           <Section googleAuth={googleAuth}/>
 
            <footer className="App-footer">
             <div>
