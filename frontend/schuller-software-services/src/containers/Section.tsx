@@ -6,10 +6,10 @@ import {Divider, List, ListItem, ListItemText, useTheme} from "@mui/material";
 import TabPanel from "../components/TabPanel";
 import Message from "../components/Message";
 
-interface SectionProps {
-    googleAuth?: any
-    children?: React.ReactNode;
-}
+// interface SectionProps {
+//     googleAuth?: any
+//     children?: React.ReactNode;
+// }
 
 function Section(props:any) {
     const theme = useTheme();
