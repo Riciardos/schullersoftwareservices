@@ -6,21 +6,21 @@ interface TabPanelProps {
     children?: React.ReactNode;
     dir?: string;
     index: number;
-    value: number;
+    chosenIndex: number;
     className?: string;
 }
 
 function TabPanel(props: TabPanelProps) {
-    const { children, value, index, className, ...other } = props;
+    const { children, chosenIndex, index, className, ...other } = props;
     return (
         <div className={className + " TabPanel"}
             role="tabpanel"
-            hidden={value !== index}
+            hidden={chosenIndex !== index}
             id={`full-width-tabpanel-${index}`}
             aria-labelledby={`full-width-tab-${index}`}
             {...other}
         >
-            {value === index && (
+            {chosenIndex === index && (
                 <Box sx={{ p: 3 }}>
                     <Typography component="div">{children}</Typography>
                 </Box>
