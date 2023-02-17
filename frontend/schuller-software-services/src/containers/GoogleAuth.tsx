@@ -1,9 +1,6 @@
-import { useTheme } from "@mui/material";
 import './GoogleAuth.css'
 
 function GoogleAuth(props:any) {
-
-    const theme = useTheme();
 
     return (
         <div className="GoogleAuth">

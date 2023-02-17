@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React from 'react';
 import './App.css';
 import Section from "./containers/Section";
 import {Button, ThemeProvider, useMediaQuery} from "@mui/material";
@@ -8,11 +8,11 @@ import GoogleAuth from './containers/GoogleAuth';
 function App() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-    const [googleAuth, setGoogleAuth] = useState();
+    // const [googleAuth, setGoogleAuth] = useState();
 
     const handleCredentialResponse = (response:any) => {
         console.log(response);
-        setGoogleAuth(response);
+        // setGoogleAuth(response);
     }
     // @ts-ignore
     window.handleCredentialResponse = handleCredentialResponse;
