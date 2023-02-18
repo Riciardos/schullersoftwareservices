@@ -21,6 +21,10 @@ jobs:
         run: mvn test
       - name: Build artifact
         run: mvn package
+      - uses: actions/upload-artifact@master
+        with:
+          name: api.jar
+          path: ./target/api-0.1-shaded.jar
   infra:
     needs: api
     defaults:
@@ -34,6 +38,10 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-action-admin-role
           aws-region: eu-west-1
+      - uses: actions/download-artifact@master
+        with:
+          name: api.jar
+          ath: ../api/api/target/api-0.1.jar
       - name: Terraform Init
         run: terraform init
       - name: Terraform Plan
