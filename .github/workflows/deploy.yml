@@ -1,8 +1,4 @@
-name: Build Test Deploy Frontend
-
-defaults:
-  run:
-    working-directory: frontend/schuller-software-services
+name: Build Test Deploy
 
 permissions:
   id-token: write
@@ -14,10 +10,28 @@ on:
     branches:
       - main
 jobs:
-  build:
-
+  infra:
+    defaults:
+      run:
+        working-directory: infra
     runs-on: ubuntu-latest
-
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-action-admin-role
+          aws-region: eu-west-1
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform Plan
+        run: terraform plan
+  frontend:
+    defaults:
+      run:
+        working-directory: frontend/schuller-software-services
+    needs: infra
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x

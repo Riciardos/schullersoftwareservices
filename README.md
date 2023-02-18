@@ -1,5 +1,5 @@
 # schullersoftwareservices
-![Frontend](https://github.com/Riciardos/schullersoftwareservices/actions/workflows/frontend.yml/badge.svg)
+![Frontend](https://github.com/Riciardos/schullersoftwareservices/actions/workflows/deploy.yml/badge.svg)
 
 Monorepo for Schuller Software Services.
 
