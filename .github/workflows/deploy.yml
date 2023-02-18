@@ -10,7 +10,19 @@ on:
     branches:
       - main
 jobs:
+  api:
+    defaults:
+      run:
+        working-directory: api/api
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: mvn test
+      - name: Build artifact
+        run: mvn package
   infra:
+    needs: api
     defaults:
       run:
         working-directory: infra
