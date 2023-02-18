@@ -22,14 +22,18 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: maven
       - name: Run tests
         run: ./mvnw test
       - name: Build artifact
         run: ./mvnw package
+      - run: mkdir staging && cp target/*.jar staging
       - uses: actions/upload-artifact@master
         with:
           name: api.jar
-          path: api/api/target/api-0.1-shaded.jar
+          path: ./api/api/staging
+          if-no-files-found: error
+
   infra:
     needs: api
     defaults:
@@ -46,7 +50,7 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: api.jar
-          ath: ../api/api/target/api-0.1.jar
+          path: ./api/api/target
       - name: Terraform Init
         run: terraform init
       - name: Terraform Plan
