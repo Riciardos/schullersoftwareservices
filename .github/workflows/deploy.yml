@@ -29,7 +29,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: api.jar
-          path: ./target/api-0.1-shaded.jar
+          path: api/api/target/api-0.1-shaded.jar
   infra:
     needs: api
     defaults:
