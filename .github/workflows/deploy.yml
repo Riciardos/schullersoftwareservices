@@ -18,9 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
-        run: mvn test
+        run: ./mvnw test
       - name: Build artifact
-        run: mvn package
+        run: ./mvnw package
       - uses: actions/upload-artifact@master
         with:
           name: api.jar
