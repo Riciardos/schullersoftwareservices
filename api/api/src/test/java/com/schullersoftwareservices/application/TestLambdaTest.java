@@ -1,4 +1,6 @@
-package com.schullersoftwareservices;
+package com.schullersoftwareservices.application;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.amazonaws.serverless.exceptions.ContainerInitializationException;
 import com.amazonaws.serverless.proxy.internal.testutils.AwsProxyRequestBuilder;
@@ -28,7 +30,7 @@ class TestLambdaTest {
 		try {
 			handler = new MicronautLambdaHandler();
 			objectMapper = handler.getApplicationContext().getBean(ObjectMapper.class);
-		} catch (ContainerInitializationException e ) {
+		} catch (ContainerInitializationException e) {
 			e.printStackTrace();
 		}
 	}
@@ -50,7 +52,8 @@ class TestLambdaTest {
 				.build();
 
 		AwsProxyResponse response = handler.handleRequest(request, lambdaContext);
-		System.out.println(objectMapper.writeValueAsString(response));
+		assertEquals(200, response.getStatusCode());
+		assertEquals("Hello Ricardo", response.getBody());
 	}
 
 
@@ -63,8 +66,8 @@ class TestLambdaTest {
 				.build();
 
 		AwsProxyResponse response = handler.handleRequest(request, lambdaContext);
-		System.out.println(response.getBody());
-
+		assertEquals(200, response.getStatusCode());
+		assertEquals("Hello Ricardo", response.getBody());
 	}
 
 }

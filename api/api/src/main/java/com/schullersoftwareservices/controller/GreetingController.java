@@ -14,8 +14,7 @@ public class GreetingController {
 
 	@Get("/{name}")
 	@Secured(SecurityRule.IS_ANONYMOUS)
-	public String getHello(String name)
-	{
+	public String getHello(String name) {
 		return "Hello " + name;
 	}
 
@@ -23,7 +22,8 @@ public class GreetingController {
 	@Secured(SecurityRule.IS_AUTHENTICATED)
 	public String getSecuredGreeting(Authentication authentication) {
 
-		return String.format("Hello %s, your email is: %s", authentication.getAttributes().get("name"), authentication.getAttributes().get("email"));
+		return String.format("Hello %s, your email is: %s", authentication.getAttributes().get("name"),
+				authentication.getAttributes().get("email"));
 	}
 
 	@Post("/greeting")

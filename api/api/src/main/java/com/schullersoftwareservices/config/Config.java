@@ -16,8 +16,6 @@ public class Config {
 
 	@Bean
 	DynamoDbClient dynamoDbClient() {
-		String TABLE_NAME = "messages";
-
 		return DynamoDbClient.builder().region(Region.EU_CENTRAL_1).build();
 	}
 }
