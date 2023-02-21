@@ -1,0 +1,25 @@
+micronaut:
+  application:
+    name: api
+  server:
+    cors:
+      enabled: true
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          jwks:
+            google:
+              url: https://www.googleapis.com/oauth2/v3/certs
+    endpoints:
+      logout:
+        get-allowed: true
+    redirect:
+      enabled: false
+      unauthorized:
+        enabled: false
+netty:
+  default:
+    allocator:
+      max-order: 3

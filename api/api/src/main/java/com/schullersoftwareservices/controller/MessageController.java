@@ -2,6 +2,7 @@ package com.schullersoftwareservices.controller;
 
 import com.schullersoftwareservices.model.Message;
 import com.schullersoftwareservices.model.MessageBody;
+import com.schullersoftwareservices.repository.MessageRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -23,50 +24,33 @@ import java.util.stream.Collectors;
 @Controller("/messages")
 public class MessageController {
 
-  static final String TABLE_NAME = "messages";
+	static final String TABLE_NAME = "messages";
 
-  @Inject private DynamoDbClient dynamoDbClient;
+	@Inject
+	private DynamoDbClient dynamoDbClient;
 
-  @Post("/post")
-  @Secured(SecurityRule.IS_AUTHENTICATED)
-  public HttpResponse<Message> postMessage(MessageBody messageBody, Authentication authentication) {
+	@Inject
+	private MessageRepository messageRepository;
 
-    Message message =
-        Message.builder()
-            .uuid(UUID.randomUUID())
-            .message(messageBody.getMessage())
-            .owner(authentication.getName())
-            .date(LocalDate.now())
-            .dateTime(LocalDateTime.now())
-            .build();
-    dynamoDbClient.putItem(
-        PutItemRequest.builder().tableName(TABLE_NAME).item(Message.toMap(message)).build());
-    return HttpResponse.accepted().body(message);
-  }
+	@Post("/post")
+	@Secured(SecurityRule.IS_AUTHENTICATED)
+	public HttpResponse<Message> postMessage(MessageBody messageBody, Authentication authentication) {
 
-  @Get("/{date}")
-  @Secured(SecurityRule.IS_AUTHENTICATED)
-  public HttpResponse<List<Message>> getDayMessages(String date) {
-    QueryResponse response =
-        dynamoDbClient.query(
-            QueryRequest.builder()
-                .tableName(TABLE_NAME)
-                .keyConditionExpression("#d = :v_date")
-                .expressionAttributeNames(Map.of("#d", "Date"))
-                .expressionAttributeValues(
-                    Map.of(":v_date", AttributeValue.builder().s(date).build()))
-                .build());
-    return HttpResponse.accepted()
-        .body(response.items().stream().map(Message::fromMap).collect(Collectors.toList()));
-  }
+		return HttpResponse.accepted()
+				.body(messageRepository.putMessage(messageBody, authentication.getName()));
+	}
 
-  @Get("/all")
-  @Secured(SecurityRule.IS_AUTHENTICATED)
-  public HttpResponse<List<Message>> getAllMessages() {
-    ScanRequest scanRequest = ScanRequest.builder().tableName(TABLE_NAME).build();
-    ScanResponse response = dynamoDbClient.scan(scanRequest);
-    List<Message> messages =
-        response.items().stream().map(Message::fromMap).collect(Collectors.toList());
-    return HttpResponse.accepted().body(messages);
-  }
+	@Get("/{date}")
+	@Secured(SecurityRule.IS_AUTHENTICATED)
+	public HttpResponse<List<Message>> getDayMessages(String date) {
+		return HttpResponse.accepted()
+				.body(messageRepository.getDayMessages(date));
+	}
+
+	@Get("/all")
+	@Secured(SecurityRule.IS_AUTHENTICATED)
+	public HttpResponse<List<Message>> getAllMessages() {
+
+		return HttpResponse.accepted().body(messageRepository.getAllMessages());
+	}
 }
