@@ -24,11 +24,6 @@ import java.util.stream.Collectors;
 @Controller("/messages")
 public class MessageController {
 
-	static final String TABLE_NAME = "messages";
-
-	@Inject
-	private DynamoDbClient dynamoDbClient;
-
 	@Inject
 	private MessageRepository messageRepository;
 

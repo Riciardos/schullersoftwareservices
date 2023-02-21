@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
 @Introspected
 public class MessageRepository {
 
-	static final String TABLE_NAME = "messages";
+	static final String TABLE_NAME = "SchullerSoftwareServices";
 
 	@Inject
 	private DynamoDbClient dynamoDbClient;
 
-	public Message putMessage(MessageBody messageBody, String name) {
+	public Message putMessage(MessageBody messageBody, String owner) {
 		Message message =
 				Message.builder()
 						.uuid(UUID.randomUUID())
 						.message(messageBody.getMessage())
-						.owner(name)
+						.owner(owner)
 						.date(LocalDate.now())
 						.dateTime(LocalDateTime.now())
 						.build();
@@ -51,6 +51,4 @@ public class MessageRepository {
 		ScanResponse response = dynamoDbClient.scan(scanRequest);
 		return response.items().stream().map(Message::fromMap).collect(Collectors.toList());
 	}
-
-
 }
