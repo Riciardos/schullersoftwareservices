@@ -1,5 +1,6 @@
 package com.schullersoftwareservices.controller;
 
+import com.schullersoftwareservices.model.Greeting;
 import com.schullersoftwareservices.model.Name;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -20,10 +21,10 @@ public class GreetingController {
 
 	@Get("/secured/greeting")
 	@Secured(SecurityRule.IS_AUTHENTICATED)
-	public String getSecuredGreeting(Authentication authentication) {
+	public Greeting getSecuredGreeting(Authentication authentication) {
 
-		return String.format("Hello %s, your email is: %s", authentication.getAttributes().get("name"),
-				authentication.getAttributes().get("email"));
+		return Greeting.builder().message(String.format("Hello %s, your email is: %s", authentication.getAttributes().get("name"),
+				authentication.getAttributes().get("email"))).build();
 	}
 
 	@Post("/greeting")

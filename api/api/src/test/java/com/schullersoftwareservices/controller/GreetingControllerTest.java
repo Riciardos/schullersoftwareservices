@@ -2,6 +2,7 @@ package com.schullersoftwareservices.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.schullersoftwareservices.model.Greeting;
 import com.schullersoftwareservices.model.Name;
 import com.schullersoftwareservices.repository.MessageRepository;
 import io.micronaut.security.authentication.Authentication;
@@ -24,8 +25,8 @@ class GreetingControllerTest {
 	@Test
 	void getSecuredGreeting() {
 		Authentication authentication = Authentication.build("Ricardo", Map.of("name", "Ricardo", "email", "test@gmail.com"));
-		String result = greetingController.getSecuredGreeting(authentication);
-		assertEquals("Hello Ricardo, your email is: test@gmail.com", result);
+		Greeting result = greetingController.getSecuredGreeting(authentication);
+		assertEquals("Hello Ricardo, your email is: test@gmail.com", result.getMessage());
 	}
 
 	@Test
