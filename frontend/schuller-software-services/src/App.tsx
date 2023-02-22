@@ -6,7 +6,6 @@ import pickTheme from "./theme";
 import GoogleAuth from './components/GoogleAuth';
 import AuthProvider from "./containers/AuthProvider";
 import Welcome from "./containers/Welcome";
-require("dotenv").config();
 
 function App() {
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');

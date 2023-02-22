@@ -8,7 +8,7 @@ function Welcome(props:any) {
 	const [greeting, setGreeting] = useState();
 
 	useEffect(() => {
-		fetch(process.env.API_HOST + "/secured/greeting",
+		fetch(process.env.REACT_APP_API_HOST + "/secured/greeting",
 			{
 				headers: {
 					"Authorization": "Bearer " + auth.authentication.credential
