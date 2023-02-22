@@ -1,6 +1,17 @@
 import './GoogleAuth.css'
+import {useState} from "react";
 
 function GoogleAuth(props:any) {
+
+	const [googleAuth, setGoogleAuth] = useState();
+
+	// eslint-disable-next-line
+	const handleCredentialResponse = (response:any) => {
+		console.log(response);
+		setGoogleAuth(response);
+	}
+	// @ts-ignore
+	window.handleCredentialResponse = handleCredentialResponse;
 
     return (
         <div className="GoogleAuth">

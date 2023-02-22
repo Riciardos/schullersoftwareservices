@@ -8,14 +8,6 @@ import GoogleAuth from './containers/GoogleAuth';
 function App() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-    // const [googleAuth, setGoogleAuth] = useState();
-
-    const handleCredentialResponse = (response:any) => {
-        console.log(response);
-        // setGoogleAuth(response);
-    }
-    // @ts-ignore
-    window.handleCredentialResponse = handleCredentialResponse;
     return (
     <div className="App">
        <ThemeProvider theme={pickTheme(prefersDarkMode)}>
@@ -31,7 +23,7 @@ function App() {
             <div>
                 <Button variant="outlined" href="https://www.github.com/riciardos">Github</Button>
                 <Button variant="contained" href="https://www.linkedin.com/in/ricardo-schuller-944750110">LinkedIn</Button>
-            
+
             </div>
 
             <address>Address: Zoetestraat 25C, Haarlem, The Netherlands</address>
