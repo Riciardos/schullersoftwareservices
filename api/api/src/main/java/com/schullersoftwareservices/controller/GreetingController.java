@@ -13,23 +13,28 @@ import io.micronaut.security.rules.SecurityRule;
 @Controller
 public class GreetingController {
 
-	@Get("/{name}")
-	@Secured(SecurityRule.IS_ANONYMOUS)
-	public String getHello(String name) {
-		return "Hello " + name;
-	}
+  @Get("/{name}")
+  @Secured(SecurityRule.IS_ANONYMOUS)
+  public String getHello(String name) {
+    return "Hello " + name;
+  }
 
-	@Get("/secured/greeting")
-	@Secured(SecurityRule.IS_AUTHENTICATED)
-	public Greeting getSecuredGreeting(Authentication authentication) {
+  @Post("/greeting")
+  @Secured(SecurityRule.IS_ANONYMOUS)
+  public Greeting postGreeting(@Body Name name) {
+    return Greeting.builder().message("Hello " + name.getName()).build();
+  }
 
-		return Greeting.builder().message(String.format("Hello %s, your email is: %s", authentication.getAttributes().get("name"),
-				authentication.getAttributes().get("email"))).build();
-	}
+  @Get("/secured/greeting")
+  @Secured(SecurityRule.IS_AUTHENTICATED)
+  public Greeting getSecuredGreeting(Authentication authentication) {
 
-	@Post("/greeting")
-	@Secured(SecurityRule.IS_ANONYMOUS)
-	public String postGreeting(@Body Name name) {
-		return "Hello " + name.getName();
-	}
+    return Greeting.builder()
+        .message(
+            String.format(
+                "Hello %s, your email is: %s",
+                authentication.getAttributes().get("name"),
+                authentication.getAttributes().get("email")))
+        .build();
+  }
 }
