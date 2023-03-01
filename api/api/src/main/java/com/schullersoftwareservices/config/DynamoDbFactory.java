@@ -7,11 +7,11 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 @Factory
-public class Config {
+public class DynamoDbFactory {
 
 	@Bean
 	DynamoDbAsyncClient dynamoDbAsyncClient() {
-		return DynamoDbAsyncClient.builder().build();
+		return DynamoDbAsyncClient.builder().region(Region.EU_CENTRAL_1).build();
 	}
 
 	@Bean
