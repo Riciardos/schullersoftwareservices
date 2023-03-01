@@ -5,6 +5,7 @@ import com.schullersoftwareservices.model.Name;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Options;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
@@ -23,6 +24,12 @@ public class GreetingController {
   @Secured(SecurityRule.IS_ANONYMOUS)
   public Greeting postGreeting(@Body Name name) {
     return Greeting.builder().message("Hello " + name.getName()).build();
+  }
+
+  @Options("/secured/greeting")
+  @Secured(SecurityRule.IS_ANONYMOUS)
+  public Greeting allowSecuredGreetingOptionsPreflight() {
+    return Greeting.builder().build();
   }
 
   @Get("/secured/greeting")
