@@ -5,7 +5,8 @@ resource "aws_lambda_function" "micronaut_lambda" {
   runtime = "java11"
   handler = "io.micronaut.function.aws.proxy.MicronautLambdaHandler"
   role    = aws_iam_role.lambda_exec.arn
-  memory_size = 512
+  memory_size = 1024
+  timeout = 10
 }
 
 resource "aws_cloudwatch_log_group" "micronaut_lambda_log_group" {
