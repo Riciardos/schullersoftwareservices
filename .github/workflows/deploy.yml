@@ -2,13 +2,13 @@ name: Build Test Deploy
 
 permissions:
   id-token: write
-  contents: read 
+  contents: read
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - main
+    - main
 jobs:
   api:
     defaults:
@@ -16,23 +16,23 @@ jobs:
         working-directory: api/api
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-      - name: Run tests
-        run: ./mvnw test
-      - name: Build artifact
-        run: ./mvnw package
-      - run: mkdir staging && cp target/*.jar staging
-      - uses: actions/upload-artifact@master
-        with:
-          name: api.jar
-          path: ./api/api/staging
-          if-no-files-found: error
+    - uses: actions/checkout@v2
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: temurin
+        cache: maven
+    - name: Run tests
+      run: ./mvnw test
+    - name: Build artifact
+      run: ./mvnw package
+    - run: mkdir staging && cp target/*.jar staging
+    - uses: actions/upload-artifact@master
+      with:
+        name: api.jar
+        path: ./api/api/staging
+        if-no-files-found: error
 
   infra:
     needs: api
@@ -41,20 +41,22 @@ jobs:
         working-directory: infra
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-action-admin-role
-          aws-region: eu-west-1
-      - uses: actions/download-artifact@master
-        with:
-          name: api.jar
-          path: ./api/api/target
-      - name: Terraform Init
-        run: terraform init
-      - name: Terraform Plan
-        run: terraform plan
+    - uses: actions/checkout@v2
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-action-admin-role
+        aws-region: eu-west-1
+    - uses: actions/download-artifact@master
+      with:
+        name: api.jar
+        path: ./api/api/target
+    - name: Terraform Init
+      run: terraform init
+    - name: Terraform Plan
+      run: terraform plan
+    - name: Terraform Apply
+      run: terraform apply
   frontend:
     defaults:
       run:
@@ -62,20 +64,20 @@ jobs:
     needs: infra
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
-      - name: Install dependencies
-        run: yarn
-      - run: yarn run build
-      - run: yarn run test
+    - uses: actions/checkout@v2
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
+    - name: Install dependencies
+      run: yarn
+    - run: yarn run build
+    - run: yarn run test
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-action-admin-role
-          aws-region: eu-west-1
-      - name: Deploy to S3
-        run: aws s3 sync ./build s3://${{ secrets.AWS_BUCKET }}/
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-action-admin-role
+        aws-region: eu-west-1
+    - name: Deploy to S3
+      run: aws s3 sync ./build s3://${{ secrets.AWS_BUCKET }}/
