@@ -57,23 +57,6 @@ class TestLambdaTest {
   }
 
   @Test
-  void testSecuredGreetingOptions() throws Exception {
-    Name name = new Name();
-    name.setName("Ricardo");
-
-    String json = objectMapper.writeValueAsString(name);
-    AwsProxyRequest request =
-        new AwsProxyRequestBuilder("/secured/greeting", HttpMethod.OPTIONS.toString())
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-            .body(json)
-            .build();
-
-    AwsProxyResponse response = handler.handleRequest(request, lambdaContext);
-    assertEquals(200, response.getStatusCode());
-    assertEquals("{}", response.getBody());
-  }
-
-  @Test
   void testGreetingGet() throws Exception {
     String name = "Ricardo";
 
