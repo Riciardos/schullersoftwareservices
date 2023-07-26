@@ -22,6 +22,7 @@ public class GreetingController {
   }
 
   @Get("/slow/{name}")
+  @Secured(SecurityRule.IS_ANONYMOUS)
   public String getSlowHello(String name) throws InterruptedException {
     sleep(1000);
     return "Hello " + name;
