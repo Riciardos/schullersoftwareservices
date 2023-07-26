@@ -3,6 +3,6 @@
 
 Monorepo for Schuller Software Services.
 
-Frontend is a SPA in React.
+Frontend is an SPA in React.
 API is done with Micronaut
 All IaC is done in Terraform

@@ -20,7 +20,7 @@ function Welcome(props:any) {
 
 	return (
 		<div>
-			{auth.authenticated ? greeting : "Welcome"}
+			{auth.authenticated ? greeting : "Welcome, please log in."}
 		</div>
 	)
 }

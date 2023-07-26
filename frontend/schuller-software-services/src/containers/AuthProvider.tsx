@@ -18,10 +18,13 @@ function AuthProvider(props: any) {
 	});
 	const handleCredentialResponse = (response:any) => {
 		console.log(response);
-		setGoogleAuth({
-			authenticated: true,
-			authentication: response
-		});
+    if (response.credential) {
+      setGoogleAuth({
+        authenticated: true,
+        authentication: response
+      });
+    }
+
 	}
 	// @ts-ignore
 	window.handleCredentialResponse = handleCredentialResponse;
