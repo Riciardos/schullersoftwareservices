@@ -1,5 +1,7 @@
 package com.schullersoftwareservices.controller;
 
+import static java.lang.Thread.sleep;
+
 import com.schullersoftwareservices.model.Greeting;
 import com.schullersoftwareservices.model.Name;
 import io.micronaut.http.annotation.Body;
@@ -16,6 +18,12 @@ public class GreetingController {
   @Get("/{name}")
   @Secured(SecurityRule.IS_ANONYMOUS)
   public String getHello(String name) {
+    return "Hello " + name;
+  }
+
+  @Get("/slow/{name}")
+  public String getSlowHello(String name) throws InterruptedException {
+    sleep(1000);
     return "Hello " + name;
   }
 
