@@ -11,6 +11,7 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
+import java.util.List;
 
 @Controller
 public class GreetingController {
@@ -26,6 +27,12 @@ public class GreetingController {
   public String getSlowHello(String name) throws InterruptedException {
     sleep(1000);
     return "Hello " + name;
+  }
+
+  @Get("/testData")
+  @Secured(SecurityRule.IS_ANONYMOUS)
+  public List<String> getTestData() {
+    return List.of("John", "Jane", "Bert", "Ed");
   }
 
   @Post("/greeting")
