@@ -14,9 +14,13 @@ export const options = {
 let testData = [];
 export function setup() {
   // get initial test data
-  testData = http.get('https://api.schullersoftwareservices.com/test')
+  const result  = http.get('https://api.schullersoftwareservices.com/testData')
+  testData = result.body
 }
 export default function () {
   const randomName = randomItem(testData)
-  http.get('https://api.schullersoftwareservices.com/slow/' + randomData);
+  console.log("Using this name: " + randomName)
+  const result = http.get('https://api.schullersoftwareservices.com/slow/' + randomName);
+
+
 }

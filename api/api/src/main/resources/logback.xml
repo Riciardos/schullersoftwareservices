@@ -11,7 +11,7 @@
     </encoder>
   </appender>
 <!--  <logger name="io.micronaut.security" level="debug"/>-->
-  <root level="info">
+  <root level="debug">
     <appender-ref ref="STDOUT"/>
   </root>
 </configuration>

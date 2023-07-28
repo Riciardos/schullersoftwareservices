@@ -9,7 +9,7 @@ export const options = {
 }
 export default function () {
   const randomName = uuidv4();
-  const res = http.get('https://api.schullersoftwareservices.com/slow/' + randomName);
+  const res = http.get('https://api.schullersoftwareservices.com/' + randomName);
   check(res, {
     'is status 200': (r) => r.status === 200,
     'response includes name': (r) => r.body.includes('Hello ' + randomName),

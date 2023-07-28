@@ -2,8 +2,8 @@ resource "aws_lambda_function" "micronaut_lambda" {
   function_name = "MicronautAPI"
   filename = "../api/api/target/api-0.1.jar"
   source_code_hash = base64sha256(filebase64("../api/api/target/api-0.1.jar"))
-  runtime = "java11"
-  handler = "io.micronaut.function.aws.proxy.MicronautLambdaHandler"
+  runtime = "java17"
+  handler = "io.micronaut.function.aws.proxy.alb.ApplicationLoadBalancerFunction"
   role    = aws_iam_role.lambda_exec.arn
   memory_size = 1024
   timeout = 10

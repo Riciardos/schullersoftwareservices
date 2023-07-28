@@ -9,6 +9,10 @@ micronaut:
     token:
       jwt:
         signatures:
+          redis:
+            redis-port: 6379
+            redis-host: clustercfg.test.drlchs.memorydb.eu-central-1.amazonaws.com
+            enabled: true
           jwks:
             google:
               url: https://www.googleapis.com/oauth2/v3/certs
