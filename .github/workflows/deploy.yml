@@ -81,3 +81,29 @@ jobs:
         aws-region: eu-west-1
     - name: Deploy to S3
       run: aws s3 sync ./build s3://${{ secrets.AWS_BUCKET }}/
+
+  notify:
+    needs: [api, infra, frontend]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - name: Notify Slack
+      uses: slackapi/slack-github-action@v2
+      with:
+        webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+        webhook-type: incoming-webhook
+        payload: |
+          {
+            "text": "${{ (needs.api.result == 'success' && needs.infra.result == 'success' && needs.frontend.result == 'success') && '✅ Deploy succeeded' || '❌ Deploy failed' }} on `${{ github.ref_name }}` by ${{ github.actor }}",
+            "attachments": [
+              {
+                "color": "${{ (needs.api.result == 'success' && needs.infra.result == 'success' && needs.frontend.result == 'success') && 'good' || 'danger' }}",
+                "fields": [
+                  { "title": "API", "value": "${{ needs.api.result }}", "short": true },
+                  { "title": "Infra", "value": "${{ needs.infra.result }}", "short": true },
+                  { "title": "Frontend", "value": "${{ needs.frontend.result }}", "short": true },
+                  { "title": "Run", "value": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>", "short": true }
+                ]
+              }
+            ]
+          }
