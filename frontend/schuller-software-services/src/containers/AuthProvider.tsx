@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 const AuthContext = React.createContext(
 	{
@@ -16,14 +16,13 @@ function AuthProvider(props: any) {
 			credential: ""
 		}
 	});
-	const handleCredentialResponse = (response:any) => {
-		console.log(response);
-    if (response.credential) {
-      setGoogleAuth({
-        authenticated: true,
-        authentication: response
-      });
-    }
+	const handleCredentialResponse = (response: any) => {
+		if (response.credential) {
+			setGoogleAuth({
+				authenticated: true,
+				authentication: response
+			});
+		}
 
 	}
 	// @ts-ignore

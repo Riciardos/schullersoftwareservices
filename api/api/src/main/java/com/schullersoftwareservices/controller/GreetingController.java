@@ -1,7 +1,5 @@
 package com.schullersoftwareservices.controller;
 
-import static java.lang.Thread.sleep;
-
 import com.schullersoftwareservices.model.Greeting;
 import com.schullersoftwareservices.model.Name;
 import io.micronaut.http.annotation.Body;
@@ -11,7 +9,9 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
+import java.time.Duration;
 import java.util.List;
+import reactor.core.publisher.Mono;
 
 @Controller
 public class GreetingController {
@@ -24,9 +24,8 @@ public class GreetingController {
 
   @Get("/slow/{name}")
   @Secured(SecurityRule.IS_ANONYMOUS)
-  public String getSlowHello(String name) throws InterruptedException {
-    sleep(1000);
-    return "Hello " + name;
+  public Mono<String> getSlowHello(String name) {
+    return Mono.delay(Duration.ofSeconds(1)).map(unused -> "Hello " + name);
   }
 
   @Get("/testData")

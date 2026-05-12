@@ -20,14 +20,6 @@ micronaut:
     token:
       jwt:
         signatures:
-          cache:
-            enabled: true
-            cache-type: redis
-#            dynamodb:
-#              table-name: jwks-cache
-#              primary-key: PK
-#              secondary-key: SK
-
           jwks:
             google:
               url: https://www.googleapis.com/oauth2/v3/certs
@@ -43,5 +35,3 @@ netty:
     allocator:
       max-order: 3
 
-redis:
-  uri: redis://localhost

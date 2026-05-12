@@ -9,13 +9,13 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 @Factory
 public class DynamoDbFactory {
 
-	@Bean
-	DynamoDbAsyncClient dynamoDbAsyncClient() {
-		return DynamoDbAsyncClient.builder().region(Region.EU_CENTRAL_1).build();
-	}
+  @Bean
+  DynamoDbAsyncClient dynamoDbAsyncClient() {
+    return DynamoDbAsyncClient.builder().region(Region.EU_CENTRAL_1).build();
+  }
 
-	@Bean
-	DynamoDbClient dynamoDbClient() {
-		return DynamoDbClient.builder().region(Region.EU_CENTRAL_1).build();
-	}
+  @Bean
+  DynamoDbClient dynamoDbClient() {
+    return DynamoDbClient.builder().region(Region.EU_CENTRAL_1).build();
+  }
 }

@@ -58,10 +58,10 @@
       <artifactId>snakeyaml</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.micronaut.redis</groupId>
-      <artifactId>micronaut-redis-lettuce</artifactId>
+      <groupId>io.micronaut.reactor</groupId>
+      <artifactId>micronaut-reactor</artifactId>
     </dependency>
-    <dependency>
+<dependency>
 			<groupId>io.micronaut</groupId>
 			<artifactId>micronaut-inject-java</artifactId>
 			<scope>compile</scope>
