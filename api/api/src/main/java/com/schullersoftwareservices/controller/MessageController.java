@@ -2,14 +2,17 @@ package com.schullersoftwareservices.controller;
 
 import com.schullersoftwareservices.model.Message;
 import com.schullersoftwareservices.model.MessageBody;
+import com.schullersoftwareservices.model.MessagesPage;
 import com.schullersoftwareservices.repository.MessageRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
+import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
 import java.util.List;
 
@@ -21,7 +24,6 @@ public class MessageController {
 
   @Post("/post")
   public HttpResponse<Message> postMessage(MessageBody messageBody, Authentication authentication) {
-
     return HttpResponse.accepted()
         .body(messageRepository.putMessage(messageBody, authentication.getName()));
   }
@@ -32,8 +34,7 @@ public class MessageController {
   }
 
   @Get("/all")
-  public HttpResponse<List<Message>> getAllMessages() {
-
-    return HttpResponse.accepted().body(messageRepository.getAllMessages());
+  public HttpResponse<MessagesPage> getAllMessages(@Nullable @QueryValue String cursor) {
+    return HttpResponse.accepted().body(messageRepository.getAllMessages(cursor));
   }
 }

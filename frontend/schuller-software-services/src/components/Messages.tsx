@@ -24,6 +24,8 @@ function Messages() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
 
   const authHeader = { Authorization: 'Bearer ' + auth.authentication.credential };
 
@@ -31,8 +33,25 @@ function Messages() {
     setLoading(true);
     fetch(process.env.REACT_APP_API_HOST + '/messages/all', { headers: authHeader })
       .then((res) => res.json())
-      .then((data) => setMessages(data ?? []))
+      .then((data) => {
+        setMessages(data.messages ?? []);
+        setNextCursor(data.nextCursor ?? null);
+      })
       .finally(() => setLoading(false));
+  };
+
+  const loadMore = () => {
+    if (!nextCursor) return;
+    setLoadingMore(true);
+    fetch(`${process.env.REACT_APP_API_HOST}/messages/all?cursor=${nextCursor}`, {
+      headers: authHeader,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setMessages((prev) => [...prev, ...(data.messages ?? [])]);
+        setNextCursor(data.nextCursor ?? null);
+      })
+      .finally(() => setLoadingMore(false));
   };
 
   useEffect(() => {
@@ -76,27 +95,38 @@ function Messages() {
           Send
         </Button>
       </Box>
+
       {loading ? (
         <CircularProgress size={24} />
       ) : (
-        <List dense disablePadding>
-          {messages.map((msg, i) => (
-            <Box key={msg.uuid}>
-              <ListItem disableGutters>
-                <ListItemText
-                  primary={msg.message}
-                  secondary={`${msg.owner} · ${new Date(msg.dateTime).toLocaleString()}`}
-                />
-              </ListItem>
-              {i < messages.length - 1 && <Divider />}
+        <>
+          <List dense disablePadding>
+            {messages.map((msg, i) => (
+              <Box key={msg.uuid}>
+                <ListItem disableGutters>
+                  <ListItemText
+                    primary={msg.message}
+                    secondary={`${msg.owner} · ${new Date(msg.dateTime).toLocaleString()}`}
+                  />
+                </ListItem>
+                {i < messages.length - 1 && <Divider />}
+              </Box>
+            ))}
+            {messages.length === 0 && (
+              <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>
+                No messages yet.
+              </Typography>
+            )}
+          </List>
+
+          {nextCursor && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+              <Button variant="outlined" onClick={loadMore} disabled={loadingMore}>
+                {loadingMore ? <CircularProgress size={20} /> : 'Load more'}
+              </Button>
             </Box>
-          ))}
-          {messages.length === 0 && (
-            <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>
-              No messages yet.
-            </Typography>
           )}
-        </List>
+        </>
       )}
     </Box>
   );

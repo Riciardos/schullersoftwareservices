@@ -2,9 +2,11 @@ package com.schullersoftwareservices.repository;
 
 import com.schullersoftwareservices.model.Message;
 import com.schullersoftwareservices.model.MessageBody;
+import com.schullersoftwareservices.model.MessagesPage;
 import io.micronaut.core.annotation.Introspected;
 import jakarta.inject.Inject;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -26,6 +28,7 @@ public class MessageRepository {
   private static final String DATETIME = "DateTime";
   private static final String MESSAGE = "Message";
   private static final String OWNER = "Owner";
+  private static final int DEFAULT_PAGE_SIZE = 20;
 
   @Inject private DynamoDbClient dynamoDbClient;
 
@@ -50,10 +53,18 @@ public class MessageRepository {
     return response.items().stream().map(this::fromMap).collect(Collectors.toList());
   }
 
-  public List<Message> getAllMessages() {
-    ScanResponse response =
-        dynamoDbClient.scan(ScanRequest.builder().tableName(TABLE_NAME).build());
-    return response.items().stream().map(this::fromMap).collect(Collectors.toList());
+  public MessagesPage getAllMessages(String cursor) {
+    ScanRequest.Builder builder =
+        ScanRequest.builder().tableName(TABLE_NAME).limit(DEFAULT_PAGE_SIZE);
+    if (cursor != null) {
+      builder.exclusiveStartKey(decodeCursor(cursor));
+    }
+    ScanResponse response = dynamoDbClient.scan(builder.build());
+    List<Message> messages =
+        response.items().stream().map(this::fromMap).collect(Collectors.toList());
+    String nextCursor =
+        response.lastEvaluatedKey().isEmpty() ? null : encodeCursor(response.lastEvaluatedKey());
+    return new MessagesPage(messages, nextCursor);
   }
 
   private Message fromMap(Map<String, AttributeValue> values) {
@@ -71,5 +82,17 @@ public class MessageRepository {
         DATETIME, AttributeValue.builder().s(message.dateTime().toString()).build(),
         MESSAGE, AttributeValue.builder().s(message.message()).build(),
         OWNER, AttributeValue.builder().s(message.owner()).build());
+  }
+
+  private String encodeCursor(Map<String, AttributeValue> key) {
+    String raw = key.get(PK).s() + "|" + key.get(SK).s();
+    return Base64.getEncoder().encodeToString(raw.getBytes());
+  }
+
+  private Map<String, AttributeValue> decodeCursor(String cursor) {
+    String[] parts = new String(Base64.getDecoder().decode(cursor)).split("\\|", 2);
+    return Map.of(
+        PK, AttributeValue.builder().s(parts[0]).build(),
+        SK, AttributeValue.builder().s(parts[1]).build());
   }
 }
