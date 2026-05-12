@@ -26,14 +26,13 @@ class GreetingControllerTest {
     Authentication authentication =
         Authentication.build("Ricardo", Map.of("name", "Ricardo", "email", "test@gmail.com"));
     Greeting result = greetingController.getSecuredGreeting(authentication);
-    assertEquals("Hello Ricardo, your email is: test@gmail.com", result.getMessage());
+    assertEquals("Hello Ricardo, your email is: test@gmail.com", result.message());
   }
 
   @Test
   void postGreeting() {
-    Name name = new Name();
-    name.setName("Ricardo");
+    Name name = new Name("Ricardo");
     Greeting result = greetingController.postGreeting(name);
-    assertEquals("Hello Ricardo", result.getMessage());
+    assertEquals("Hello Ricardo", result.message());
   }
 }

@@ -1,18 +1,18 @@
-resource aws_dynamodb_table dynamo_table {
+resource "aws_dynamodb_table" "dynamo_table" {
 
-  name = "SchullerSoftwareServices"
+  name         = "SchullerSoftwareServices"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key = "PK"
-  range_key = "SK"
+  hash_key     = "PK"
+  range_key    = "SK"
 
   attribute {
-	name = "PK"
-	type = "S"
+    name = "PK"
+    type = "S"
   }
 
   attribute {
-	name = "SK"
-	type = "S"
+    name = "SK"
+    type = "S"
   }
 }
 

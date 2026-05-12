@@ -1,12 +1,13 @@
 resource "aws_lambda_function" "micronaut_lambda" {
-  function_name = "MicronautAPI"
-  filename = "../api/api/target/api-0.1.jar"
+  function_name    = "MicronautAPI"
+  filename         = "../api/api/target/api-0.1.jar"
   source_code_hash = base64sha256(filebase64("../api/api/target/api-0.1.jar"))
-  runtime = "java17"
-  handler = "io.micronaut.function.aws.proxy.alb.ApplicationLoadBalancerFunction"
-  role    = aws_iam_role.lambda_exec.arn
-  memory_size = 1024
-  timeout = 10
+  runtime          = "java17"
+  handler          = "io.micronaut.function.aws.proxy.alb.ApplicationLoadBalancerFunction"
+  role             = aws_iam_role.lambda_exec.arn
+  memory_size      = 1024
+  timeout          = 15
+
 }
 
 resource "aws_cloudwatch_log_group" "micronaut_lambda_log_group" {
@@ -19,16 +20,16 @@ resource "aws_iam_role" "lambda_exec" {
   name = "serverless_lambda"
 
   assume_role_policy = jsonencode({
-	Version = "2012-10-17"
-	Statement = [{
-	  Action = "sts:AssumeRole"
-	  Effect = "Allow"
-	  Sid    = ""
-	  Principal = {
-		Service = "lambda.amazonaws.com"
-	  }
-	}
-	]
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Sid    = ""
+      Principal = {
+        Service = "lambda.amazonaws.com"
+      }
+      }
+    ]
   })
 }
 

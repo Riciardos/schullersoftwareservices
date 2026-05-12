@@ -38,7 +38,7 @@ public class GreetingController {
   @Post("/greeting")
   @Secured(SecurityRule.IS_ANONYMOUS)
   public Greeting postGreeting(@Body Name name) {
-    return Greeting.builder().message("Hello " + name.getName()).build();
+    return Greeting.builder().message("Hello " + name.name()).build();
   }
 
   @Get("/secured/greeting")

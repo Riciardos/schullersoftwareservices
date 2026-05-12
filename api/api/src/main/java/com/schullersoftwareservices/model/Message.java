@@ -1,16 +1,17 @@
 package com.schullersoftwareservices.model;
 
+import io.micronaut.serde.annotation.Serdeable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 import lombok.Builder;
-import lombok.Data;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
-@Data
+@Serdeable
 @Builder
-public class Message {
+public record Message(
+    UUID uuid, String owner, String message, LocalDateTime dateTime, LocalDate date) {
 
   static final String PK = "PK";
   static final String SK = "SK";
@@ -19,12 +20,6 @@ public class Message {
   static final String MESSAGE = "Message";
   static final String OWNER = "Owner";
   static final String UUID_STRING = "UUID";
-
-  UUID uuid;
-  String owner;
-  String message;
-  LocalDateTime dateTime;
-  LocalDate date;
 
   public static Message fromMap(Map<String, AttributeValue> values) {
     return Message.builder()
@@ -39,14 +34,14 @@ public class Message {
   public static Map<String, AttributeValue> toMap(Message message) {
     return Map.of(
         PK,
-        AttributeValue.builder().s(message.getUuid().toString()).build(),
+        AttributeValue.builder().s(message.uuid().toString()).build(),
         SK,
-        AttributeValue.builder().s(message.getDate().toString()).build(),
+        AttributeValue.builder().s(message.date().toString()).build(),
         DATETIME,
-        AttributeValue.builder().s(message.getDateTime().toString()).build(),
+        AttributeValue.builder().s(message.dateTime().toString()).build(),
         MESSAGE,
-        AttributeValue.builder().s(message.getMessage()).build(),
+        AttributeValue.builder().s(message.message()).build(),
         OWNER,
-        AttributeValue.builder().s(message.getOwner()).build());
+        AttributeValue.builder().s(message.owner()).build());
   }
 }

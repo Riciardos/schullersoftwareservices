@@ -24,7 +24,7 @@ public class MessageRepository {
     Message message =
         Message.builder()
             .uuid(UUID.randomUUID())
-            .message(messageBody.getMessage())
+            .message(messageBody.message())
             .owner(owner)
             .date(LocalDate.now())
             .dateTime(LocalDateTime.now())

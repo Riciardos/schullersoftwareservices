@@ -1,9 +1,9 @@
 package com.schullersoftwareservices.application;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micronaut.function.aws.proxy.MockLambdaContext;
 import io.micronaut.function.aws.proxy.alb.ApplicationLoadBalancerFunction;
+import io.micronaut.serde.ObjectMapper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 

@@ -2,12 +2,7 @@ package com.schullersoftwareservices.model;
 
 import io.micronaut.serde.annotation.Serdeable;
 import lombok.Builder;
-import lombok.Data;
 
-@Data
-@Builder
 @Serdeable
-public class Greeting {
-
-  String message;
-}
+@Builder
+public record Greeting(String message) {}

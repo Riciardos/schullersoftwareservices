@@ -1,10 +1,6 @@
 package com.schullersoftwareservices.model;
 
-import io.micronaut.core.annotation.Introspected;
-import lombok.Data;
+import io.micronaut.serde.annotation.Serdeable;
 
-@Data
-public class Name {
-
-	String name;
-}
+@Serdeable
+public record Name(String name) {}

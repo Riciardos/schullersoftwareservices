@@ -1,9 +1,6 @@
 package com.schullersoftwareservices.model;
 
-import lombok.Data;
+import io.micronaut.serde.annotation.Serdeable;
 
-@Data
-public class MessageBody {
-
-	public String message;
-}
+@Serdeable
+public record MessageBody(String message) {}
