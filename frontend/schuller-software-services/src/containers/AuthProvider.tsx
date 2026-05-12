@@ -1,36 +1,31 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from 'react';
 
-const AuthContext = React.createContext(
-	{
-		authenticated: false,
-		authentication: {
-			credential: ""
-		},
-	}
-);
-function AuthProvider(props: any) {
-
-	const [googleAuth, setGoogleAuth] = useState({
-		authenticated: false,
-		authentication: {
-			credential: ""
-		}
-	});
-	const handleCredentialResponse = (response: any) => {
-		if (response.credential) {
-			setGoogleAuth({
-				authenticated: true,
-				authentication: response
-			});
-		}
-
-	}
-	// @ts-ignore
-	window.handleCredentialResponse = handleCredentialResponse;
-	return (<AuthContext.Provider value={googleAuth}>{props.children}</AuthContext.Provider>);
+interface AuthState {
+  authenticated: boolean;
+  authentication: { credential: string };
+  setAuth: (response: any) => void;
 }
 
-export {
-	AuthContext
-};
+const AuthContext = React.createContext<AuthState>({
+  authenticated: false,
+  authentication: { credential: '' },
+  setAuth: () => {},
+});
+
+function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [googleAuth, setGoogleAuth] = useState({
+    authenticated: false,
+    authentication: { credential: '' },
+  });
+
+  const setAuth = useCallback((response: any) => {
+    if (response.credential) {
+      setGoogleAuth({ authenticated: true, authentication: response });
+    }
+  }, []);
+
+  return <AuthContext.Provider value={{ ...googleAuth, setAuth }}>{children}</AuthContext.Provider>;
+}
+
+export { AuthContext };
 export default AuthProvider;

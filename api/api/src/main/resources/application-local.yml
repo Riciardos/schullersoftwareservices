@@ -1,0 +1,15 @@
+micronaut:
+  server:
+    cors:
+      enabled: true
+      configurations:
+        web:
+          allowed-origins:
+          - http://localhost:3000
+          allowed-methods:
+          - GET
+          - POST
+          - OPTIONS
+          allowed-headers:
+          - Authorization
+          - Content-Type
