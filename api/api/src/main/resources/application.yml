@@ -4,6 +4,17 @@ micronaut:
   server:
     cors:
       enabled: true
+      configurations:
+        web:
+          allowed-origins:
+          - https://schullersoftwareservices.com
+          allowed-methods:
+          - GET
+          - POST
+          - OPTIONS
+          allowed-headers:
+          - Authorization
+          - Content-Type
   security:
     authentication: bearer
     token:
