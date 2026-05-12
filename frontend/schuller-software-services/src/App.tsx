@@ -28,7 +28,7 @@ function App() {
 							<Button variant="contained"
 									href="https://www.linkedin.com/in/ricardo-schuller-944750110">LinkedIn</Button>
 						</div>
-						<address>Address: Zoetestraat 25C, Haarlem, The Netherlands</address>
+						<address>Address: Vijfhuizerdijk 226, Vijfhuizen, The Netherlands</address>
 						Phone: +31621705940, taxcode: NL004009717B15
 					</footer>
 				</ThemeProvider>
