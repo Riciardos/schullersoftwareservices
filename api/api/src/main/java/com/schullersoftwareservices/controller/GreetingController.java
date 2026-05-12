@@ -37,19 +37,16 @@ public class GreetingController {
   @Post("/greeting")
   @Secured(SecurityRule.IS_ANONYMOUS)
   public Greeting postGreeting(@Body Name name) {
-    return Greeting.builder().message("Hello " + name.name()).build();
+    return new Greeting("Hello " + name.name());
   }
 
   @Get("/secured/greeting")
   @Secured(SecurityRule.IS_AUTHENTICATED)
   public Greeting getSecuredGreeting(Authentication authentication) {
-
-    return Greeting.builder()
-        .message(
-            String.format(
-                "Hello %s, your email is: %s",
-                authentication.getAttributes().get("name"),
-                authentication.getAttributes().get("email")))
-        .build();
+    return new Greeting(
+        String.format(
+            "Hello %s, your email is: %s",
+            authentication.getAttributes().get("name"),
+            authentication.getAttributes().get("email")));
   }
 }
