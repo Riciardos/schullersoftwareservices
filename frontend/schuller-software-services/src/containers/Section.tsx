@@ -47,7 +47,7 @@ function Section(props: any) {
                     <ListItem>
                         <ListItemText
                             primary="NATS"
-                            secondary="Project Tech Lead - Admin - 2020 - 2023" />
+                            secondary="Project Tech Lead - Admin - 2020 - 2021" />
                     </ListItem>
                     <Divider />
                     <ListItem>
