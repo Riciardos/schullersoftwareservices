@@ -6,6 +6,7 @@ import com.schullersoftwareservices.model.MessagesPage;
 import com.schullersoftwareservices.repository.MessageRepository;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
@@ -23,7 +24,8 @@ public class MessageController {
   @Inject private MessageRepository messageRepository;
 
   @Post("/post")
-  public HttpResponse<Message> postMessage(MessageBody messageBody, Authentication authentication) {
+  public HttpResponse<Message> postMessage(
+      @Body MessageBody messageBody, Authentication authentication) {
     return HttpResponse.accepted()
         .body(messageRepository.putMessage(messageBody, authentication.getName()));
   }
