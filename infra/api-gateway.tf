@@ -1,6 +1,14 @@
 resource "aws_apigatewayv2_api" "api" {
   name          = "Serverless API"
   protocol_type = "HTTP"
+
+  cors_configuration {
+    allow_credentials = true
+    allow_origins     = ["https://schullersoftwareservices.com"]
+    allow_methods     = ["GET", "POST", "OPTIONS"]
+    allow_headers     = ["Authorization", "Content-Type"]
+    max_age           = 1800
+  }
 }
 
 resource "aws_apigatewayv2_integration" "lambda" {
