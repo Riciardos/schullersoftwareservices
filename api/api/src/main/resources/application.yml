@@ -3,12 +3,11 @@ micronaut:
     name: api
   server:
     cors:
-      enabled: false
+      enabled: true
       configurations:
         web:
           allowed-origins:
           - https://schullersoftwareservices.com
-          - http://localhost:3000
           allowed-methods:
           - GET
           - POST
