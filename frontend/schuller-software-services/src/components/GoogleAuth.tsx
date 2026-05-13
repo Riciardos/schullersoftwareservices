@@ -1,9 +1,8 @@
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '../containers/AuthProvider';
-import './GoogleAuth.css';
+import { GoogleAuthContainer } from './GoogleAuth.styles';
 
-const CLIENT_ID =
-  '40668943377-4vb0kr2dds16iu6rs59jpak6hk2s2ga5.apps.googleusercontent.com';
+const CLIENT_ID = '40668943377-4vb0kr2dds16iu6rs59jpak6hk2s2ga5.apps.googleusercontent.com';
 
 function GoogleAuth() {
   const { setAuth } = useContext(AuthContext);
@@ -30,9 +29,9 @@ function GoogleAuth() {
   }, [setAuth]);
 
   return (
-    <div className="GoogleAuth">
+    <GoogleAuthContainer>
       <div id="google-signin-button" />
-    </div>
+    </GoogleAuthContainer>
   );
 }
 

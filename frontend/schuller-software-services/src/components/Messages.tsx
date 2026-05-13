@@ -1,16 +1,14 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, CircularProgress, Divider, List, ListItem, ListItemText } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../containers/AuthProvider';
+import {
+  EmptyMessage,
+  InputRow,
+  LoadMoreContainer,
+  LoginPrompt,
+  MessagesContainer,
+  StyledTextField,
+} from './Messages.styles';
 
 interface Message {
   uuid: string;
@@ -72,29 +70,24 @@ function Messages() {
   };
 
   if (!auth.authenticated) {
-    return (
-      <Typography sx={{ color: 'rgba(255,255,255,0.6)', p: 2 }}>
-        Please log in to use messages.
-      </Typography>
-    );
+    return <LoginPrompt>Please log in to use messages.</LoginPrompt>;
   }
 
   return (
-    <Box sx={{ p: 2 }}>
-      <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
-        <TextField
+    <MessagesContainer>
+      <InputRow>
+        <StyledTextField
           fullWidth
           size="small"
           placeholder="Type a message..."
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && postMessage()}
-          sx={{ input: { color: 'white' } }}
         />
         <Button variant="contained" onClick={postMessage} disabled={!newMessage.trim()}>
           Send
         </Button>
-      </Box>
+      </InputRow>
 
       {loading ? (
         <CircularProgress size={24} />
@@ -102,7 +95,7 @@ function Messages() {
         <>
           <List dense disablePadding>
             {messages.map((msg, i) => (
-              <Box key={msg.uuid}>
+              <div key={msg.uuid}>
                 <ListItem disableGutters>
                   <ListItemText
                     primary={msg.message}
@@ -110,25 +103,21 @@ function Messages() {
                   />
                 </ListItem>
                 {i < messages.length - 1 && <Divider />}
-              </Box>
+              </div>
             ))}
-            {messages.length === 0 && (
-              <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>
-                No messages yet.
-              </Typography>
-            )}
+            {messages.length === 0 && <EmptyMessage>No messages yet.</EmptyMessage>}
           </List>
 
           {nextCursor && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+            <LoadMoreContainer>
               <Button variant="outlined" onClick={loadMore} disabled={loadingMore}>
                 {loadingMore ? <CircularProgress size={20} /> : 'Load more'}
               </Button>
-            </Box>
+            </LoadMoreContainer>
           )}
         </>
       )}
-    </Box>
+    </MessagesContainer>
   );
 }
 
