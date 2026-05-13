@@ -3,7 +3,7 @@ resource "aws_lambda_function" "micronaut_lambda" {
   filename         = "../api/api/target/api-0.1.jar"
   source_code_hash = base64sha256(filebase64("../api/api/target/api-0.1.jar"))
   runtime          = "java21"
-  handler          = "io.micronaut.function.aws.proxy.alb.ApplicationLoadBalancerFunction"
+  handler          = "io.micronaut.function.aws.proxy.payload1.ApiGatewayProxyRequestFunction"
   role             = aws_iam_role.lambda_exec.arn
   memory_size      = 1024
   timeout          = 15
@@ -36,4 +36,25 @@ resource "aws_iam_role" "lambda_exec" {
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
   role       = aws_iam_role.lambda_exec.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy" "lambda_dynamodb" {
+  name = "lambda_dynamodb_policy"
+  role = aws_iam_role.lambda_exec.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem"
+      ]
+      Resource = aws_dynamodb_table.dynamo_table.arn
+    }]
+  })
 }
