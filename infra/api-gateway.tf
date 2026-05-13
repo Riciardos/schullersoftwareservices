@@ -18,9 +18,15 @@ resource "aws_apigatewayv2_integration" "lambda" {
   payload_format_version = "2.0"
 }
 
-resource "aws_apigatewayv2_route" "default" {
+resource "aws_apigatewayv2_route" "get" {
   api_id    = aws_apigatewayv2_api.api.id
-  route_key = "$default"
+  route_key = "GET /{proxy+}"
+  target    = "integrations/${aws_apigatewayv2_integration.lambda.id}"
+}
+
+resource "aws_apigatewayv2_route" "post" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "POST /{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.lambda.id}"
 }
 
