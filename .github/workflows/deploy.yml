@@ -55,9 +55,9 @@ jobs:
     - name: Terraform Init
       run: terraform init
     - name: Terraform Plan
-      run: terraform plan
+      run: terraform plan -var="api_certificate_arn=${{ secrets.TF_VAR_api_certificate_arn }}"
     - name: Terraform Apply
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve -var="api_certificate_arn=${{ secrets.TF_VAR_api_certificate_arn }}"
   frontend:
     defaults:
       run:
