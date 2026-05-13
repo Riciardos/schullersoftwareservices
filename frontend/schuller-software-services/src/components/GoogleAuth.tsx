@@ -12,7 +12,7 @@ function GoogleAuth() {
       const google = (window as any).google;
       if (!google?.accounts?.id) return;
 
-      google.accounts.id.initialize({ client_id: CLIENT_ID, callback: setAuth });
+      google.accounts.id.initialize({ client_id: CLIENT_ID, callback: setAuth, auto_select: true });
       google.accounts.id.renderButton(document.getElementById('google-signin-button'), {
         theme: 'outline',
         size: 'large',

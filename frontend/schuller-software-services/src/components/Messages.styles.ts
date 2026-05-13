@@ -4,6 +4,8 @@ import TextField from '@mui/material/TextField';
 
 export const MessagesContainer = styled('div')({
   padding: '16px',
+  maxHeight: '400px',
+  overflow: 'auto',
 });
 
 export const InputRow = styled('div')({

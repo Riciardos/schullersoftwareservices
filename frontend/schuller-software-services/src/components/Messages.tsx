@@ -74,8 +74,8 @@ function Messages() {
   }
 
   return (
-    <MessagesContainer>
-      <InputRow>
+    <>
+          <InputRow>
         <StyledTextField
           fullWidth
           size="small"
@@ -88,6 +88,8 @@ function Messages() {
           Send
         </Button>
       </InputRow>
+    <MessagesContainer>
+
 
       {loading ? (
         <CircularProgress size={24} />
@@ -118,6 +120,7 @@ function Messages() {
         </>
       )}
     </MessagesContainer>
+    </>
   );
 }
 
