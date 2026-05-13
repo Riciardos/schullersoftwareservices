@@ -101,7 +101,7 @@ function Messages() {
                 <ListItem disableGutters>
                   <ListItemText
                     primary={msg.message}
-                    secondary={`${msg.owner} · ${new Date(msg.dateTime).toLocaleString()}`}
+                    secondary={`${msg.owner} · ${new Date(msg.dateTime + 'Z').toLocaleString()}`}
                   />
                 </ListItem>
                 {i < messages.length - 1 && <Divider />}

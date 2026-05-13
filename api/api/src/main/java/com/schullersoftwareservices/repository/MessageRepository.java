@@ -7,6 +7,7 @@ import io.micronaut.core.annotation.Introspected;
 import jakarta.inject.Inject;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -34,7 +35,7 @@ public class MessageRepository {
   @Inject private DynamoDbClient dynamoDbClient;
 
   public Message putMessage(MessageBody messageBody, String owner) {
-    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
     Message message = new Message(UUID.randomUUID(), owner, messageBody.message(), now);
     dynamoDbClient.putItem(
         PutItemRequest.builder().tableName(TABLE_NAME).item(toMap(message)).build());
