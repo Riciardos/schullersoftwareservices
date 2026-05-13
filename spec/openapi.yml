@@ -1,0 +1,186 @@
+openapi: 3.0.1
+info:
+  title: Schuller Software Services API
+  version: '0.1'
+paths:
+  /greeting:
+    post:
+      operationId: postGreeting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Name'
+        required: true
+      responses:
+        '200':
+          description: postGreeting 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Greeting'
+  /messages:
+    post:
+      operationId: postMessage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                messageBody:
+                  $ref: '#/components/schemas/MessageBody'
+        required: true
+      responses:
+        '200':
+          description: postMessage 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+  /messages/all:
+    get:
+      operationId: getAllMessages
+      parameters:
+      - name: cursor
+        in: query
+        schema:
+          type: string
+          nullable: true
+      responses:
+        '200':
+          description: getAllMessages 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagesPage'
+  /messages/{date}:
+    get:
+      operationId: getDayMessages
+      parameters:
+      - name: date
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: getDayMessages 200 response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+  /secured/greeting:
+    get:
+      operationId: getSecuredGreeting
+      responses:
+        '200':
+          description: getSecuredGreeting 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Greeting'
+  /slow/{name}:
+    get:
+      operationId: getSlowHello
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: getSlowHello 200 response
+          content:
+            application/json:
+              schema:
+                type: string
+  /testData:
+    get:
+      operationId: getTestData
+      responses:
+        '200':
+          description: getTestData 200 response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /{name}:
+    get:
+      operationId: getHello
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: getHello 200 response
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    Greeting:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    Message:
+      required:
+      - dateTime
+      - message
+      - owner
+      - uuid
+      type: object
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+        message:
+          type: string
+        owner:
+          type: string
+        uuid:
+          type: string
+          format: uuid
+    MessageBody:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    MessagesPage:
+      required:
+      - messages
+      - nextCursor
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        nextCursor:
+          type: string
+    Name:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

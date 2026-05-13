@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { setAuthToken } from '../api/client';
 
 interface AuthState {
   authenticated: boolean;
@@ -20,6 +21,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const setAuth = useCallback((response: any) => {
     if (response.credential) {
+      setAuthToken(response.credential);
       setGoogleAuth({ authenticated: true, authentication: response });
     }
   }, []);

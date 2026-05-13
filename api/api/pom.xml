@@ -18,6 +18,7 @@
 		<jdk.version>21</jdk.version>
 		<release.version>21</release.version>
 		<micronaut.version>4.0.0</micronaut.version>
+		<micronaut.openapi.version>5.0.1</micronaut.openapi.version>
 		<exec.mainClass>com.schullersoftwareservices.Application</exec.mainClass>
 		<micronaut.runtime>netty</micronaut.runtime>
 	</properties>
@@ -60,6 +61,11 @@
     <dependency>
       <groupId>io.micronaut.reactor</groupId>
       <artifactId>micronaut-reactor</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut.openapi</groupId>
+      <artifactId>micronaut-openapi</artifactId>
+      <scope>provided</scope>
     </dependency>
 <dependency>
 			<groupId>io.micronaut</groupId>
@@ -191,6 +197,11 @@
 							<groupId>io.micronaut</groupId>
 							<artifactId>micronaut-http-validation</artifactId>
 							<version>${micronaut.version}</version>
+						</path>
+						<path>
+							<groupId>io.micronaut.openapi</groupId>
+							<artifactId>micronaut-openapi</artifactId>
+							<version>${micronaut.openapi.version}</version>
 						</path>
 					</annotationProcessorPaths>
 					<compilerArgs>
