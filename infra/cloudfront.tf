@@ -4,9 +4,8 @@ data "aws_route53_zone" "main" {
 
 resource "aws_cloudfront_distribution" "api" {
   origin {
-    domain_name = "${aws_api_gateway_rest_api.rest_api.id}.execute-api.eu-central-1.amazonaws.com"
+    domain_name = "${aws_apigatewayv2_api.api.id}.execute-api.eu-central-1.amazonaws.com"
     origin_id   = "api-gateway"
-    origin_path = "/${aws_api_gateway_stage.api_stage.stage_name}"
 
     custom_origin_config {
       http_port              = 80

@@ -8,7 +8,7 @@ class LambdaHandlerTest {
 
   // Must match handler in infra/lambda.tf
   private static final String HANDLER =
-      "io.micronaut.function.aws.proxy.payload1.ApiGatewayProxyRequestEventFunction";
+      "io.micronaut.function.aws.proxy.payload2.APIGatewayV2HTTPEventFunction";
 
   @Test
   void lambdaHandlerClassExists() throws ClassNotFoundException {

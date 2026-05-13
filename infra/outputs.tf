@@ -1,5 +1,5 @@
 output "api_gateway_url" {
-  value = aws_api_gateway_stage.api_stage.invoke_url
+  value = aws_apigatewayv2_stage.default.invoke_url
 }
 
 output "api_cloudfront_domain" {

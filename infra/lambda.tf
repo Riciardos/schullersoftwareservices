@@ -3,7 +3,7 @@ resource "aws_lambda_function" "micronaut_lambda" {
   filename         = "../api/api/target/api-0.1.jar"
   source_code_hash = base64sha256(filebase64("../api/api/target/api-0.1.jar"))
   runtime          = "java21"
-  handler          = "io.micronaut.function.aws.proxy.payload1.ApiGatewayProxyRequestEventFunction"
+  handler          = "io.micronaut.function.aws.proxy.payload2.APIGatewayV2HTTPEventFunction"
   role             = aws_iam_role.lambda_exec.arn
   memory_size      = 1024
   timeout          = 15

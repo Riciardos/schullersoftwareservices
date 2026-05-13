@@ -3,22 +3,22 @@ package com.schullersoftwareservices.application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
-import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
 import io.micronaut.function.aws.proxy.MockLambdaContext;
-import io.micronaut.function.aws.proxy.payload1.ApiGatewayProxyRequestEventFunction;
+import io.micronaut.function.aws.proxy.payload2.APIGatewayV2HTTPEventFunction;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class ApiGatewayHandlerTest {
 
-  static ApiGatewayProxyRequestEventFunction handler;
+  static APIGatewayV2HTTPEventFunction handler;
   static MockLambdaContext lambdaContext = new MockLambdaContext();
 
   @BeforeAll
   static void setup() {
-    handler = new ApiGatewayProxyRequestEventFunction();
+    handler = new APIGatewayV2HTTPEventFunction();
   }
 
   @AfterAll
@@ -28,7 +28,7 @@ class ApiGatewayHandlerTest {
 
   @Test
   void anonymousEndpointReturns200() {
-    APIGatewayProxyResponseEvent response =
+    APIGatewayV2HTTPResponse response =
         handler.handleRequest(buildRequest("GET", "/ricardo"), lambdaContext);
     assertNotNull(response);
     assertEquals(200, response.getStatusCode());
@@ -37,20 +37,22 @@ class ApiGatewayHandlerTest {
 
   @Test
   void securedEndpointWithoutTokenReturns401() {
-    APIGatewayProxyResponseEvent response =
+    APIGatewayV2HTTPResponse response =
         handler.handleRequest(buildRequest("GET", "/secured/greeting"), lambdaContext);
     assertNotNull(response);
     assertEquals(401, response.getStatusCode());
   }
 
-  private static APIGatewayProxyRequestEvent buildRequest(String method, String path) {
-    APIGatewayProxyRequestEvent.ProxyRequestContext context =
-        new APIGatewayProxyRequestEvent.ProxyRequestContext();
-    context.setStage("test");
+  private static APIGatewayV2HTTPEvent buildRequest(String method, String path) {
+    APIGatewayV2HTTPEvent.RequestContext.Http http =
+        new APIGatewayV2HTTPEvent.RequestContext.Http();
+    http.setMethod(method);
+    http.setPath(path);
 
-    APIGatewayProxyRequestEvent request = new APIGatewayProxyRequestEvent();
-    request.setHttpMethod(method);
-    request.setPath(path);
+    APIGatewayV2HTTPEvent.RequestContext context = new APIGatewayV2HTTPEvent.RequestContext();
+    context.setHttp(http);
+
+    APIGatewayV2HTTPEvent request = new APIGatewayV2HTTPEvent();
     request.setRequestContext(context);
     return request;
   }
