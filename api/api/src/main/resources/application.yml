@@ -23,6 +23,7 @@ micronaut:
           jwks:
             google:
               url: https://www.googleapis.com/oauth2/v3/certs
+              cache-expiration: 3600
     endpoints:
       logout:
         get-allowed: true
