@@ -27,7 +27,7 @@ resource "aws_cloudfront_distribution" "api" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Authorization", "Content-Type", "Origin"]
+      headers      = ["Authorization", "Content-Type", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"]
       cookies {
         forward = "none"
       }
