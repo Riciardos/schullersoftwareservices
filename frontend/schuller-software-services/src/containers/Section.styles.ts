@@ -12,4 +12,8 @@ export const SectionContainer = styled('section')({
   overflow: 'hidden',
   position: 'relative',
   zIndex: 1,
+  '@media (max-width: 900px)': {
+    width: '90%',
+    flex: 'none',
+  },
 });

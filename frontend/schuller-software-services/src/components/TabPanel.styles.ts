@@ -7,6 +7,12 @@ export const TabPanelContainer = styled('div')({
   minHeight: '150px',
   padding: '1.5rem 2rem',
   lineHeight: 1.75,
+  overflowX: 'hidden',
+  wordBreak: 'break-word',
+  boxSizing: 'border-box',
+  '@media (max-width: 600px)': {
+    padding: '1rem',
+  },
   '& a': {
     color: '#7dd8f0',
     textDecoration: 'none',
