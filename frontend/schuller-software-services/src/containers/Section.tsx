@@ -4,6 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import { Divider, List, ListItem, ListItemText, useTheme } from '@mui/material';
 import TabPanel from '../components/TabPanel';
 import Messages from '../components/Messages';
+import BuildInfo from '../components/BuildInfo';
 import { SectionContainer } from './Section.styles';
 
 function Section() {
@@ -26,6 +27,7 @@ function Section() {
         <Tab value={1} label="Motivation" />
         <Tab value={2} label="Experience" />
         <Tab value={3} label="Messages" />
+        <Tab value={4} label="Built with" />
       </Tabs>
 
       <TabPanel chosenIndex={chosenIndex} index={0} dir={theme.direction}>
@@ -78,6 +80,9 @@ function Section() {
       </TabPanel>
       <TabPanel chosenIndex={chosenIndex} index={3} dir={theme.direction}>
         <Messages />
+      </TabPanel>
+      <TabPanel chosenIndex={chosenIndex} index={4} dir={theme.direction}>
+        <BuildInfo />
       </TabPanel>
     </SectionContainer>
   );

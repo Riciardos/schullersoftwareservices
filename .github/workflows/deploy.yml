@@ -84,6 +84,25 @@ jobs:
         aws-region: eu-west-1
     - name: Deploy to S3
       run: aws s3 sync ./build s3://${{ secrets.AWS_BUCKET }}/
+    - name: Run Lighthouse
+      run: |
+        npx --yes lighthouse https://schullersoftwareservices.com \
+          --output=json \
+          --output-path=/tmp/lighthouse.json \
+          --chrome-flags="--headless=new --no-sandbox --disable-gpu" \
+          --only-categories=performance,accessibility,best-practices,seo
+        node -e "
+          const r = JSON.parse(require('fs').readFileSync('/tmp/lighthouse.json', 'utf8'));
+          const scores = {
+            performance: Math.round(r.categories.performance.score * 100),
+            accessibility: Math.round(r.categories.accessibility.score * 100),
+            bestPractices: Math.round(r.categories['best-practices'].score * 100),
+            seo: Math.round(r.categories.seo.score * 100),
+            timestamp: new Date().toISOString()
+          };
+          require('fs').writeFileSync('/tmp/lighthouse-scores.json', JSON.stringify(scores));
+        "
+        aws s3 cp /tmp/lighthouse-scores.json s3://${{ secrets.AWS_BUCKET }}/lighthouse-scores.json
 
   notify:
     needs: [api, infra, frontend]
