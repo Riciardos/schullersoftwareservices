@@ -12,6 +12,8 @@ import {
 } from './BuildInfo.styles';
 
 interface WorkflowRun {
+  display_title: string;
+  status: string;
   conclusion: string;
   updated_at: string;
   html_url: string;
@@ -27,6 +29,11 @@ interface LighthouseScores {
 
 const REPO = 'Riciardos/schullersoftwareservices';
 const WORKFLOW = 'deploy.yml';
+
+const statusMap = {
+  in_progress: "In progress",
+  finished: "Finished"
+}
 
 const timeAgo = (iso: string) => {
   const seconds = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
@@ -63,11 +70,14 @@ function BuildInfo() {
         {run ? (
           <Row>
             <StatusDot success={success} />
-            <Typography variant="body2">
+            <Typography variant="body2" sx={{ maxWidth: 300, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
               <Link href={run.html_url} target="_blank" rel="noreferrer" color="inherit">
                 {success ? 'Passing' : run.conclusion}
               </Link>
               {' · '}
+              {`Last commit message: ${run.display_title}  · ` }
+            </Typography>
+            <Typography variant="body2">
               {timeAgo(run.updated_at)}
             </Typography>
           </Row>
