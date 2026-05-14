@@ -131,6 +131,11 @@ jobs:
         aws-region: eu-west-1
     - name: Deploy to S3
       run: aws s3 sync ./build s3://${{ secrets.AWS_BUCKET }}/
+    - name: Warm up
+      run: |
+        curl -sf https://schullersoftwareservices.com > /dev/null
+        curl -sf https://api.schullersoftwareservices.com/testData > /dev/null
+        sleep 10
     - name: Run Lighthouse
       run: |
         npx --yes lighthouse https://schullersoftwareservices.com \
