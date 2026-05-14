@@ -5,12 +5,14 @@ import GoogleAuth from './components/GoogleAuth';
 import AuthProvider from './containers/AuthProvider';
 import Welcome from './containers/Welcome';
 import { AppRoot, AppHeader, AppFooter, GradientTitle, FooterAddress } from './App.styles';
+import ParticleBackground from './components/ParticleBackground';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   return (
     <AppRoot>
+      <ParticleBackground />
       <AuthProvider>
         <ThemeProvider theme={pickTheme(prefersDarkMode)}>
           <CssBaseline />

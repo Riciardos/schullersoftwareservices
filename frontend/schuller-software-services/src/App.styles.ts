@@ -13,6 +13,8 @@ export const AppRoot = styled('div')({
 });
 
 export const AppHeader = styled('header')({
+  position: 'relative',
+  zIndex: 1,
   minHeight: '20vh',
   display: 'flex',
   alignItems: 'center',
@@ -37,6 +39,8 @@ export const GradientTitle = styled('h1')({
 });
 
 export const AppFooter = styled('footer')({
+  position: 'relative',
+  zIndex: 1,
   minHeight: '20vh',
   flex: 'auto',
   fontSize: 'calc(10px + 0.5vmin)',
