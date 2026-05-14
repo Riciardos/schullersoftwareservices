@@ -28,9 +28,11 @@ export const AppHeader = styled('header')({
 
 export const GradientTitle = styled('h1')({
   margin: 0,
-  fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
+  fontFamily: "'Rajdhani', sans-serif",
+  fontSize: 'clamp(2.2rem, 6vw, 4rem)',
   fontWeight: 700,
-  letterSpacing: '-0.02em',
+  letterSpacing: '0.06em',
+  textTransform: 'uppercase',
   background: 'linear-gradient(90deg, #ffffff 0%, #FF9A3C 50%, #FF8000 100%)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
