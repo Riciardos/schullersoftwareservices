@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 export const SectionContainer = styled('section')({
   flex: 1,
   minWidth: 0,
+  maxWidth: '100vh',
   minHeight: '60vh',
   background: 'rgba(255, 128, 0, 0.05)',
   backdropFilter: 'blur(14px)',

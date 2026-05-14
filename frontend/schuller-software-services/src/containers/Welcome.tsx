@@ -1,8 +1,8 @@
-import {useContext, useEffect, useState} from "react";
-import {AuthContext} from "./AuthProvider";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "./AuthProvider";
 
 
-function Welcome(props:any) {
+function Welcome(props: any) {
 	const auth = useContext(AuthContext)
 
 	const [greeting, setGreeting] = useState();

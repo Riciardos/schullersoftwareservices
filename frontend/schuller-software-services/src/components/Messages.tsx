@@ -1,4 +1,5 @@
 import { Button, CircularProgress, Divider, List, ListItem, ListItemText } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../containers/AuthProvider';
 import {
@@ -75,7 +76,7 @@ function Messages() {
 
   return (
     <>
-          <InputRow>
+      <InputRow>
         <StyledTextField
           fullWidth
           size="small"
@@ -85,41 +86,41 @@ function Messages() {
           onKeyDown={(e) => e.key === 'Enter' && postMessage()}
         />
         <Button variant="contained" onClick={postMessage} disabled={!newMessage.trim()}>
-          Send
+          <SendIcon />
         </Button>
       </InputRow>
-    <MessagesContainer>
+      <MessagesContainer>
 
 
-      {loading ? (
-        <CircularProgress size={24} />
-      ) : (
-        <>
-          <List dense disablePadding>
-            {messages.map((msg, i) => (
-              <div key={msg.uuid}>
-                <ListItem disableGutters>
-                  <ListItemText
-                    primary={msg.message}
-                    secondary={`${msg.owner} · ${new Date(msg.dateTime + 'Z').toLocaleString()}`}
-                  />
-                </ListItem>
-                {i < messages.length - 1 && <Divider />}
-              </div>
-            ))}
-            {messages.length === 0 && <EmptyMessage>No messages yet.</EmptyMessage>}
-          </List>
+        {loading ? (
+          <CircularProgress size={24} />
+        ) : (
+          <>
+            <List dense disablePadding>
+              {messages.map((msg, i) => (
+                <div key={msg.uuid}>
+                  <ListItem disableGutters>
+                    <ListItemText
+                      primary={msg.message}
+                      secondary={`${msg.owner} · ${new Date(msg.dateTime + 'Z').toLocaleString()}`}
+                    />
+                  </ListItem>
+                  {i < messages.length - 1 && <Divider />}
+                </div>
+              ))}
+              {messages.length === 0 && <EmptyMessage>No messages yet.</EmptyMessage>}
+            </List>
 
-          {nextCursor && (
-            <LoadMoreContainer>
-              <Button variant="outlined" onClick={loadMore} disabled={loadingMore}>
-                {loadingMore ? <CircularProgress size={20} /> : 'Load more'}
-              </Button>
-            </LoadMoreContainer>
-          )}
-        </>
-      )}
-    </MessagesContainer>
+            {nextCursor && (
+              <LoadMoreContainer>
+                <Button variant="outlined" onClick={loadMore} disabled={loadingMore}>
+                  {loadingMore ? <CircularProgress size={20} /> : 'Load more'}
+                </Button>
+              </LoadMoreContainer>
+            )}
+          </>
+        )}
+      </MessagesContainer>
     </>
   );
 }
