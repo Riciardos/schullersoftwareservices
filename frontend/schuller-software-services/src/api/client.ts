@@ -1,7 +1,7 @@
 import Axios, { AxiosRequestConfig } from 'axios';
 
 export const axiosInstance = Axios.create({
-  baseURL: process.env.REACT_APP_API_HOST,
+  baseURL: import.meta.env.VITE_API_HOST,
 });
 
 export const setAuthToken = (token: string) => {

@@ -114,10 +114,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js 20.x
+    - name: Use Node.js 22.x
       uses: actions/setup-node@v4
       with:
-        node-version: 20.x
+        node-version: 22.x
     - name: Install dependencies
       run: yarn
     - name: Generate API client
@@ -130,7 +130,7 @@ jobs:
         role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-action-admin-role
         aws-region: eu-west-1
     - name: Deploy to S3
-      run: aws s3 sync ./build s3://${{ secrets.AWS_BUCKET }}/
+      run: aws s3 sync ./dist s3://${{ secrets.AWS_BUCKET }}/
     - name: Warm up
       run: |
         curl -sf https://schullersoftwareservices.com > /dev/null

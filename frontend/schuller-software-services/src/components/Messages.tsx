@@ -30,7 +30,7 @@ function Messages() {
 
   const fetchMessages = () => {
     setLoading(true);
-    fetch(process.env.REACT_APP_API_HOST + '/messages/all', { headers: authHeader })
+    fetch(import.meta.env.VITE_API_HOST + '/messages/all', { headers: authHeader })
       .then((res) => res.json())
       .then((data) => {
         setMessages(data.messages ?? []);
@@ -42,7 +42,7 @@ function Messages() {
   const loadMore = () => {
     if (!nextCursor) return;
     setLoadingMore(true);
-    fetch(`${process.env.REACT_APP_API_HOST}/messages/all?cursor=${nextCursor}`, {
+    fetch(`${import.meta.env.VITE_API_HOST}/messages/all?cursor=${nextCursor}`, {
       headers: authHeader,
     })
       .then((res) => res.json())
@@ -60,7 +60,7 @@ function Messages() {
 
   const postMessage = () => {
     if (!newMessage.trim()) return;
-    fetch(process.env.REACT_APP_API_HOST + '/messages/post', {
+    fetch(import.meta.env.VITE_API_HOST + '/messages/post', {
       method: 'POST',
       headers: { ...authHeader, 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: newMessage }),
