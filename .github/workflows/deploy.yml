@@ -9,12 +9,36 @@ on:
   push:
     branches:
     - main
+
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      api: ${{ steps.filter.outputs.api }}
+      infra: ${{ steps.filter.outputs.infra }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          api:
+            - 'api/**'
+          infra:
+            - 'infra/**'
+          frontend:
+            - 'frontend/**'
+
   api:
+    needs: changes
+    if: needs.changes.outputs.api == 'true' || github.event_name == 'workflow_dispatch'
     defaults:
       run:
         working-directory: api/api
     runs-on: ubuntu-latest
+    outputs:
+      lambda_hash: ${{ steps.hash.outputs.lambda_hash }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up GraalVM 21
@@ -34,16 +58,25 @@ jobs:
         cd target
         mv api bootstrap
         zip api-0.1.zip bootstrap
-        cd ..
-        mkdir staging && cp target/api-0.1.zip staging
-    - uses: actions/upload-artifact@v4
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
       with:
-        name: api.zip
-        path: ./api/api/staging
-        if-no-files-found: error
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-action-admin-role
+        aws-region: eu-west-1
+    - name: Upload to S3
+      run: aws s3 cp target/api-0.1.zip s3://rs-lambda-artifacts/api-0.1.zip
+    - name: Output hash
+      id: hash
+      run: |
+        ETAG=$(aws s3api head-object --bucket rs-lambda-artifacts --key api-0.1.zip --query ETag --output text | tr -d '"')
+        echo "lambda_hash=$ETAG" >> $GITHUB_OUTPUT
 
   infra:
-    needs: api
+    needs: [changes, api]
+    if: |
+      always() &&
+      (needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true' || github.event_name == 'workflow_dispatch') &&
+      (needs.api.result == 'success' || needs.api.result == 'skipped')
     defaults:
       run:
         working-directory: infra
@@ -56,21 +89,28 @@ jobs:
       with:
         role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-action-admin-role
         aws-region: eu-west-1
-    - uses: actions/download-artifact@v4
-      with:
-        name: api.zip
-        path: ./api/api/target
     - name: Terraform Init
       run: terraform init
     - name: Terraform Plan
-      run: terraform plan -var="api_certificate_arn=${{ secrets.TF_VAR_api_certificate_arn }}"
+      run: |
+        terraform plan \
+          -var="api_certificate_arn=${{ secrets.TF_VAR_api_certificate_arn }}" \
+          ${{ needs.api.outputs.lambda_hash != '' && format('-var="lambda_source_hash={0}"', needs.api.outputs.lambda_hash) || '' }}
     - name: Terraform Apply
-      run: terraform apply -auto-approve -var="api_certificate_arn=${{ secrets.TF_VAR_api_certificate_arn }}"
+      run: |
+        terraform apply -auto-approve \
+          -var="api_certificate_arn=${{ secrets.TF_VAR_api_certificate_arn }}" \
+          ${{ needs.api.outputs.lambda_hash != '' && format('-var="lambda_source_hash={0}"', needs.api.outputs.lambda_hash) || '' }}
+
   frontend:
+    needs: [changes, infra]
+    if: |
+      always() &&
+      (needs.changes.outputs.frontend == 'true' || github.event_name == 'workflow_dispatch') &&
+      (needs.infra.result == 'success' || needs.infra.result == 'skipped')
     defaults:
       run:
         working-directory: frontend/schuller-software-services
-    needs: infra
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -84,7 +124,6 @@ jobs:
       run: yarn generate
     - run: yarn run build
     - run: yarn run test
-
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -124,10 +163,10 @@ jobs:
         webhook-type: incoming-webhook
         payload: |
           {
-            "text": "${{ (needs.api.result == 'success' && needs.infra.result == 'success' && needs.frontend.result == 'success') && '✅ Deploy succeeded' || '❌ Deploy failed' }} on `${{ github.ref_name }}` by ${{ github.actor }}",
+            "text": "${{ (needs.api.result == 'success' || needs.api.result == 'skipped') && (needs.infra.result == 'success' || needs.infra.result == 'skipped') && (needs.frontend.result == 'success' || needs.frontend.result == 'skipped') && '✅ Deploy succeeded' || '❌ Deploy failed' }} on `${{ github.ref_name }}` by ${{ github.actor }}",
             "attachments": [
               {
-                "color": "${{ (needs.api.result == 'success' && needs.infra.result == 'success' && needs.frontend.result == 'success') && 'good' || 'danger' }}",
+                "color": "${{ (needs.api.result == 'success' || needs.api.result == 'skipped') && (needs.infra.result == 'success' || needs.infra.result == 'skipped') && (needs.frontend.result == 'success' || needs.frontend.result == 'skipped') && 'good' || 'danger' }}",
                 "fields": [
                   { "title": "API", "value": "${{ needs.api.result }}", "short": true },
                   { "title": "Infra", "value": "${{ needs.infra.result }}", "short": true },
