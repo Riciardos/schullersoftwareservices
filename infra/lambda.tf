@@ -1,13 +1,34 @@
+resource "aws_s3_bucket" "lambda_artifacts" {
+  bucket = "rs-lambda-artifacts"
+}
+
+resource "aws_s3_bucket_public_access_block" "lambda_artifacts" {
+  bucket                  = aws_s3_bucket.lambda_artifacts.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_object" "lambda_zip" {
+  bucket = aws_s3_bucket.lambda_artifacts.id
+  key    = "api-0.1.zip"
+  source = "../api/api/target/api-0.1.zip"
+  etag   = filemd5("../api/api/target/api-0.1.zip")
+}
+
 resource "aws_lambda_function" "micronaut_lambda" {
   function_name    = "MicronautAPI"
-  filename         = "../api/api/target/api-0.1.zip"
-  source_code_hash = base64sha256(filebase64("../api/api/target/api-0.1.zip"))
+  s3_bucket        = aws_s3_bucket.lambda_artifacts.id
+  s3_key           = aws_s3_object.lambda_zip.key
+  source_code_hash = filebase64sha256("../api/api/target/api-0.1.zip")
   runtime          = "provided.al2023"
   handler          = "io.micronaut.function.aws.proxy.payload2.APIGatewayV2HTTPEventFunction"
   role             = aws_iam_role.lambda_exec.arn
   memory_size      = 1024
   timeout          = 15
 
+  depends_on = [aws_s3_object.lambda_zip]
 }
 
 resource "aws_cloudwatch_log_group" "micronaut_lambda_log_group" {
