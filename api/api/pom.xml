@@ -172,6 +172,16 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<profiles>
+		<profile>
+			<id>lambda</id>
+			<properties>
+				<packaging>native-image</packaging>
+				<micronaut.runtime>lambda</micronaut.runtime>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>
