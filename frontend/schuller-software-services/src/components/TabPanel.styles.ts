@@ -10,16 +10,16 @@ export const TabPanelContainer = styled('div')({
   overflowX: 'hidden',
   wordBreak: 'break-word',
   boxSizing: 'border-box',
-  '@media (max-width: 600px)': {
-    padding: '1rem',
-  },
   '& a': {
-    color: '#7dd8f0',
+    color: '#FF9A3C',
     textDecoration: 'none',
-    borderBottom: '1px solid rgba(125, 216, 240, 0.4)',
+    borderBottom: '1px solid rgba(255, 154, 60, 0.4)',
     transition: 'border-color 0.2s',
   },
   '& a:hover': {
-    borderColor: '#7dd8f0',
+    borderColor: '#FF8000',
+  },
+  '@media (max-width: 600px)': {
+    padding: '1rem',
   },
 });

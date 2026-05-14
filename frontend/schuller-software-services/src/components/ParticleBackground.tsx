@@ -11,7 +11,7 @@ const config = {
       density: { enable: true, area: 800 },
     },
     color: {
-      value: ['#7dd8f0', '#40e0d0', '#167096'],
+      value: ['#FF8000', '#FF9A3C', '#cc6600'],
     },
     opacity: {
       value: { min: 0.1, max: 0.35 },
@@ -22,7 +22,7 @@ const config = {
     links: {
       enable: true,
       distance: 150,
-      color: '#7dd8f0',
+      color: '#FF9A3C',
       opacity: 0.15,
       width: 1,
     },
