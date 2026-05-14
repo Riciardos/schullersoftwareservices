@@ -6,6 +6,33 @@ export const MapWrapper = styled('div')({
   borderRadius: '10px',
   overflow: 'hidden',
   background: 'rgba(0, 0, 0, 0.4)',
+  position: 'relative',
+});
+
+export const MapControls = styled('div')({
+  position: 'absolute',
+  top: '0.5rem',
+  right: '0.5rem',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.25rem',
+  zIndex: 10,
+});
+
+export const ZoomButton = styled('button')({
+  width: 28,
+  height: 28,
+  background: 'rgba(0,0,0,0.6)',
+  border: '1px solid rgba(255,128,0,0.4)',
+  borderRadius: 6,
+  color: '#FF8000',
+  fontSize: '1rem',
+  lineHeight: 1,
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  '&:hover': { background: 'rgba(255,128,0,0.15)' },
 });
 
 export const StatsGrid = styled('div')({

@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { ComposableMap, Geographies, Geography, Line, Marker } from 'react-simple-maps';
+import { ComposableMap, Geographies, Geography, Line, Marker, ZoomableGroup } from 'react-simple-maps';
 import {
   LiveBadge,
   LiveDot,
   MapWrapper,
+  MapControls,
+  ZoomButton,
   PulseRing,
   StatCard,
   StatLabel,
@@ -24,8 +26,12 @@ interface ISSData {
   visibility: string;
 }
 
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 8;
+
 function ISSTracker() {
   const [data, setData] = useState<ISSData | null>(null);
+  const [zoom, setZoom] = useState(1);
   const trail = useRef<[number, number][]>([]);
 
   useEffect(() => {
@@ -55,43 +61,49 @@ function ISSTracker() {
       </LiveBadge>
 
       <MapWrapper>
+        <MapControls>
+          <ZoomButton onClick={() => setZoom((z) => Math.min(z * 2, MAX_ZOOM))} aria-label="Zoom in">+</ZoomButton>
+          <ZoomButton onClick={() => setZoom((z) => Math.max(z / 2, MIN_ZOOM))} aria-label="Zoom out">−</ZoomButton>
+        </MapControls>
         <ComposableMap
           projection="geoEquirectangular"
           style={{ width: '100%', height: 'auto' }}
           projectionConfig={{ scale: 95 }}
         >
-          <Geographies geography={GEO_URL}>
-            {({ geographies }) =>
-              geographies.map((geo) => (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  style={{
-                    default: { fill: '#2a2a2a', stroke: '#444', strokeWidth: 0.4, outline: 'none' },
-                    hover: { fill: '#2a2a2a', outline: 'none' },
-                    pressed: { fill: '#2a2a2a', outline: 'none' },
-                  }}
-                />
-              ))
-            }
-          </Geographies>
+          <ZoomableGroup zoom={zoom} minZoom={MIN_ZOOM} maxZoom={MAX_ZOOM}>
+            <Geographies geography={GEO_URL}>
+              {({ geographies }) =>
+                geographies.map((geo) => (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    style={{
+                      default: { fill: '#2a2a2a', stroke: '#444', strokeWidth: 0.4, outline: 'none' },
+                      hover: { fill: '#2a2a2a', outline: 'none' },
+                      pressed: { fill: '#2a2a2a', outline: 'none' },
+                    }}
+                  />
+                ))
+              }
+            </Geographies>
 
-          {trail.current.length > 1 && (
-            <Line
-              coordinates={trail.current}
-              stroke="#FF8000"
-              strokeWidth={1}
-              strokeOpacity={0.4}
-              strokeDasharray="3 3"
-            />
-          )}
+            {trail.current.length > 1 && (
+              <Line
+                coordinates={trail.current}
+                stroke="#FF8000"
+                strokeWidth={1}
+                strokeOpacity={0.4}
+                strokeDasharray="3 3"
+              />
+            )}
 
-          {data && (
-            <Marker coordinates={[data.longitude, data.latitude]}>
-              <PulseRing cx={0} cy={0} r={6} fill="#FF8000" fillOpacity={0.3} stroke="none" />
-              <circle cx={0} cy={0} r={3} fill="#FF8000" stroke="#fff" strokeWidth={0.8} />
-            </Marker>
-          )}
+            {data && (
+              <Marker coordinates={[data.longitude, data.latitude]}>
+                <PulseRing cx={0} cy={0} r={6} fill="#FF8000" fillOpacity={0.3} stroke="none" />
+                <circle cx={0} cy={0} r={3} fill="#FF8000" stroke="#fff" strokeWidth={0.8} />
+              </Marker>
+            )}
+          </ZoomableGroup>
         </ComposableMap>
       </MapWrapper>
 

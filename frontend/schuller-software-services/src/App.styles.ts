@@ -20,8 +20,8 @@ export const AppHeader = styled('header')({
   justifyContent: 'center',
   padding: '2rem 1rem',
   width: '100%',
-  background: 'rgba(0, 0, 0, 0.4)',
-  backdropFilter: 'blur(6px)',
+  background: 'rgba(0, 0, 0, 0)',
+  backdropFilter: 'blur(2px)',
   borderBottom: '1px solid rgba(255, 128, 0, 0.2)',
   boxSizing: 'border-box',
 });
@@ -47,8 +47,8 @@ export const AppFooter = styled('footer')({
   fontSize: 'calc(10px + 0.5vmin)',
   padding: '2rem 1rem',
   width: '100%',
-  background: 'rgba(0, 0, 0, 0.5)',
-  backdropFilter: 'blur(6px)',
+  background: 'rgba(0, 0, 0, 0)',
+  backdropFilter: 'blur(2px)',
   borderTop: '1px solid rgba(255, 128, 0, 0.2)',
   display: 'flex',
   flexDirection: 'column',
@@ -57,7 +57,7 @@ export const AppFooter = styled('footer')({
   boxSizing: 'border-box',
 });
 
-export const MainContent = styled('div')({
+export const MainContent = styled('main')({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'flex-start',
