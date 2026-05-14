@@ -14,14 +14,17 @@ import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
-import jakarta.inject.Inject;
 import java.util.List;
 
 @Controller("/messages")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class MessageController {
 
-  @Inject private MessageRepository messageRepository;
+  private final MessageRepository messageRepository;
+
+  public MessageController(MessageRepository messageRepository) {
+    this.messageRepository = messageRepository;
+  }
 
   @Post("/post")
   public HttpResponse<Message> postMessage(

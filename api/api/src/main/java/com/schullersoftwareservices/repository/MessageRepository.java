@@ -3,8 +3,7 @@ package com.schullersoftwareservices.repository;
 import com.schullersoftwareservices.model.Message;
 import com.schullersoftwareservices.model.MessageBody;
 import com.schullersoftwareservices.model.MessagesPage;
-import io.micronaut.core.annotation.Introspected;
-import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
@@ -19,7 +18,7 @@ import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 
-@Introspected
+@Singleton
 public class MessageRepository {
 
   private static final String TABLE_NAME = "SchullerSoftwareServices";
@@ -32,7 +31,11 @@ public class MessageRepository {
   private static final int DEFAULT_PAGE_SIZE = 20;
   private static final int MAX_MONTHS_LOOKBACK = 24;
 
-  @Inject private DynamoDbClient dynamoDbClient;
+  private final DynamoDbClient dynamoDbClient;
+
+  public MessageRepository(DynamoDbClient dynamoDbClient) {
+    this.dynamoDbClient = dynamoDbClient;
+  }
 
   public Message putMessage(MessageBody messageBody, String owner) {
     LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
