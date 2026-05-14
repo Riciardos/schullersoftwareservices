@@ -29,7 +29,13 @@ jobs:
       run: ./mvnw test
     - name: Build native Lambda artifact
       run: ./mvnw package -Plambda
-    - run: mkdir staging && cp target/api-0.1.zip staging
+    - name: Package for Lambda
+      run: |
+        cd target
+        mv api bootstrap
+        zip api-0.1.zip bootstrap
+        cd ..
+        mkdir staging && cp target/api-0.1.zip staging
     - uses: actions/upload-artifact@v4
       with:
         name: api.zip
