@@ -1,7 +1,8 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import Particles from 'react-tsparticles';
 import { loadSlim } from 'tsparticles-slim';
 import type { Engine } from 'tsparticles-engine';
+import { UserProfileContext } from '../containers/UserProfileProvider';
 
 const config = {
   fpsLimit: 60,
@@ -50,11 +51,13 @@ const config = {
 };
 
 function ParticleBackground() {
+  const { enableParticles } = useContext(UserProfileContext);
+
   const init = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
 
-  return (
+  return (enableParticles &&
     <Particles
       id="tsparticles"
       init={init}
@@ -65,8 +68,7 @@ function ParticleBackground() {
         zIndex: 0,
         pointerEvents: 'none',
       }}
-    />
-  );
+    />);
 }
 
 export default ParticleBackground;
