@@ -22,6 +22,8 @@ function Section() {
         onChange={handleChange}
         textColor="primary"
         indicatorColor="primary"
+        variant="scrollable"
+        scrollButtons="auto"
       >
         <Tab value={0} label="Intro" />
         <Tab value={1} label="Motivation" />
