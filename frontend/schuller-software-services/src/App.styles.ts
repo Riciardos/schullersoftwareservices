@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles';
+import { styled, keyframes } from '@mui/material/styles';
 
 export const AppRoot = styled('div')({
   background: 'linear-gradient(135deg, #0d0d0d 0%, #1a1410 30%, #1f1a12 60%, #1a1410 80%, #111111 100%)',
@@ -26,6 +26,12 @@ export const AppHeader = styled('header')({
   boxSizing: 'border-box',
 });
 
+const gradientShift = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
 export const GradientTitle = styled('h1')({
   margin: 0,
   fontFamily: "'Rajdhani', sans-serif",
@@ -33,10 +39,12 @@ export const GradientTitle = styled('h1')({
   fontWeight: 700,
   letterSpacing: '0.06em',
   textTransform: 'uppercase',
-  background: 'linear-gradient(90deg, #ffffff 0%, #FF9A3C 50%, #FF8000 100%)',
+  background: 'linear-gradient(90deg, #ffffff 0%, #FF9A3C 33%, #FF8000 66%, #ffffff 100%)',
+  backgroundSize: '300% 300%',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   backgroundClip: 'text',
+  animation: `${gradientShift} 6s ease infinite`,
 });
 
 export const AppFooter = styled('footer')({
