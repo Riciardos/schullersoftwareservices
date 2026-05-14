@@ -1,8 +1,8 @@
 import { styled } from '@mui/material/styles';
 
-export const SectionContainer = styled('section')({
-  flex: 1,
-  minWidth: 0,
+export const DashboardContainer = styled('aside')({
+  width: '320px',
+  flexShrink: 0,
   minHeight: '60vh',
   background: 'rgba(255, 255, 255, 0.07)',
   backdropFilter: 'blur(14px)',
@@ -12,4 +12,11 @@ export const SectionContainer = styled('section')({
   overflow: 'hidden',
   position: 'relative',
   zIndex: 1,
+  padding: '1.5rem',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem',
+  '@media (max-width: 900px)': {
+    width: '80%',
+  },
 });

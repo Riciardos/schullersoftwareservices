@@ -56,6 +56,24 @@ export const AppFooter = styled('footer')({
   boxSizing: 'border-box',
 });
 
+export const MainContent = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'flex-start',
+  justifyContent: 'center',
+  gap: '1.5rem',
+  width: '100%',
+  padding: '0 2rem',
+  boxSizing: 'border-box',
+  position: 'relative',
+  zIndex: 1,
+  '@media (max-width: 900px)': {
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '0',
+  },
+});
+
 export const FooterAddress = styled('address')({
   color: 'rgba(255, 255, 255, 0.65)',
   fontStyle: 'normal',

@@ -4,8 +4,9 @@ import pickTheme from './theme';
 import GoogleAuth from './components/GoogleAuth';
 import AuthProvider from './containers/AuthProvider';
 import Welcome from './containers/Welcome';
-import { AppRoot, AppHeader, AppFooter, GradientTitle, FooterAddress } from './App.styles';
+import { AppRoot, AppHeader, AppFooter, GradientTitle, FooterAddress, MainContent } from './App.styles';
 import ParticleBackground from './components/ParticleBackground';
+import Dashboard from './containers/Dashboard';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -20,7 +21,10 @@ function App() {
             <GradientTitle>Schuller Software Services</GradientTitle>
           </AppHeader>
 
-          <Section />
+          <MainContent>
+            <Section />
+            <Dashboard />
+          </MainContent>
 
           <AppFooter>
             <Welcome />
