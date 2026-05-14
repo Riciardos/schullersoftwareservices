@@ -40,10 +40,15 @@ function Section() {
         story.
       </TabPanel>
       <TabPanel chosenIndex={chosenIndex} index={1} dir={theme.direction}>
-        Experienced Software Engineer with a demonstrated history of working in the information
-        technology and services industry. Strong engineering professional skilled in Java, Spring
-        Framework, Javascript, AWS, Docker, Terraform, and Agile Methodologies. Polyglot that likes
-        to solve problems and make it scalable.
+        Building things that work — and understanding why they do — is what drives me.
+        <br/> 
+        This site is a live example of that: a Micronaut API running as a GraalVM native image on AWS Lambda, 
+        a React frontend on CloudFront, infrastructure managed with Terraform, and a CI/CD pipeline that ties it all together.
+        <br/> 
+        Not because it needs to be this way, but because the right tool for the job matters, 
+        and knowing your tools deeply is what separates good engineers from great ones.
+        <br/>
+        This is a flexible design that brings you the performance you need at scale, and low cost when there is little to no traffic.
       </TabPanel>
       <TabPanel chosenIndex={chosenIndex} index={2} dir={theme.direction}>
         <List>

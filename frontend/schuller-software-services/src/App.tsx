@@ -1,3 +1,4 @@
+import { Suspense, lazy } from 'react';
 import { Button, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
 import Section from './containers/Section';
 import pickTheme from './theme';
@@ -5,15 +6,18 @@ import GoogleAuth from './components/GoogleAuth';
 import AuthProvider from './containers/AuthProvider';
 import Welcome from './containers/Welcome';
 import { AppRoot, AppHeader, AppFooter, GradientTitle, FooterAddress, MainContent } from './App.styles';
-import ParticleBackground from './components/ParticleBackground';
-import Dashboard from './containers/Dashboard';
+
+const ParticleBackground = lazy(() => import('./components/ParticleBackground'));
+const Dashboard = lazy(() => import('./containers/Dashboard'));
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   return (
     <AppRoot>
-      <ParticleBackground />
+      <Suspense fallback={null}>
+        <ParticleBackground />
+      </Suspense>
       <AuthProvider>
         <ThemeProvider theme={pickTheme(prefersDarkMode)}>
           <CssBaseline />
@@ -23,7 +27,9 @@ function App() {
 
           <MainContent>
             <Section />
-            <Dashboard />
+            <Suspense fallback={null}>
+              <Dashboard />
+            </Suspense>
           </MainContent>
 
           <AppFooter>
