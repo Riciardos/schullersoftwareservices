@@ -9,7 +9,14 @@ micronaut:
           allowed-methods:
           - GET
           - POST
+          - PUT
           - OPTIONS
           allowed-headers:
           - Authorization
           - Content-Type
+  security:
+    intercept-url-map:
+    - pattern: /**
+      http-method: OPTIONS
+      access:
+      - isAnonymous()

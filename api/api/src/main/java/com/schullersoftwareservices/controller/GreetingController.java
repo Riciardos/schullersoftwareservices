@@ -14,28 +14,25 @@ import java.util.List;
 import reactor.core.publisher.Mono;
 
 @Controller
+@Secured(SecurityRule.IS_ANONYMOUS)
 public class GreetingController {
 
   @Get("/{name}")
-  @Secured(SecurityRule.IS_ANONYMOUS)
   public String getHello(String name) {
     return "Hello " + name;
   }
 
   @Get("/slow/{name}")
-  @Secured(SecurityRule.IS_ANONYMOUS)
   public Mono<String> getSlowHello(String name) {
     return Mono.delay(Duration.ofSeconds(1)).map(unused -> "Hello " + name);
   }
 
   @Get("/testData")
-  @Secured(SecurityRule.IS_ANONYMOUS)
   public List<String> getTestData() {
     return List.of("John", "Jane", "Bert", "Ed");
   }
 
   @Post("/greeting")
-  @Secured(SecurityRule.IS_ANONYMOUS)
   public Greeting postGreeting(@Body Name name) {
     return new Greeting("Hello " + name.name());
   }

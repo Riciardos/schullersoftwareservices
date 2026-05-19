@@ -19,25 +19,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Greeting'
-  /messages:
-    post:
-      operationId: postMessage
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                messageBody:
-                  $ref: '#/components/schemas/MessageBody'
-        required: true
-      responses:
-        '200':
-          description: postMessage 200 response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
   /messages/all:
     get:
       operationId: getAllMessages
@@ -54,6 +35,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessagesPage'
+  /messages/post:
+    post:
+      operationId: postMessage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageBody'
+        required: true
+      responses:
+        '200':
+          description: postMessage 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
   /messages/{date}:
     get:
       operationId: getDayMessages
@@ -110,6 +107,27 @@ paths:
                 type: array
                 items:
                   type: string
+  /user/preferences:
+    get:
+      operationId: getUserPreferences
+      responses:
+        '200':
+          description: getUserPreferences 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferences'
+    put:
+      operationId: setUserPreferences
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPreferences'
+        required: true
+      responses:
+        '200':
+          description: setUserPreferences 200 response
   /{name}:
     get:
       operationId: getHello
@@ -143,16 +161,16 @@ components:
       - uuid
       type: object
       properties:
-        dateTime:
-          type: string
-          format: date-time
-        message:
-          type: string
-        owner:
-          type: string
         uuid:
           type: string
           format: uuid
+        owner:
+          type: string
+        message:
+          type: string
+        dateTime:
+          type: string
+          format: date-time
     MessageBody:
       required:
       - message
@@ -178,6 +196,16 @@ components:
       type: object
       properties:
         name:
+          type: string
+    UserPreferences:
+      required:
+      - enableParticles
+      - theme
+      type: object
+      properties:
+        enableParticles:
+          type: boolean
+        theme:
           type: string
   securitySchemes:
     bearer:

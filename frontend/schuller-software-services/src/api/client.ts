@@ -1,7 +1,10 @@
 import Axios, { AxiosRequestConfig } from 'axios';
 
-export const axiosInstance = Axios.create({
-  baseURL: import.meta.env.VITE_API_HOST,
+export const axiosInstance = Axios.create();
+
+axiosInstance.interceptors.request.use((config) => {
+  config.baseURL = import.meta.env.VITE_API_HOST;
+  return config;
 });
 
 export const setAuthToken = (token: string) => {

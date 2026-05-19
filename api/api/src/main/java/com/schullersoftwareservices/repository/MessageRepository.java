@@ -12,6 +12,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
@@ -19,6 +20,7 @@ import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 
 @Singleton
+@AllArgsConstructor
 public class MessageRepository {
 
   private static final String TABLE_NAME = "SchullerSoftwareServices";
@@ -32,10 +34,6 @@ public class MessageRepository {
   private static final int MAX_MONTHS_LOOKBACK = 24;
 
   private final DynamoDbClient dynamoDbClient;
-
-  public MessageRepository(DynamoDbClient dynamoDbClient) {
-    this.dynamoDbClient = dynamoDbClient;
-  }
 
   public Message putMessage(MessageBody messageBody, String owner) {
     LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
